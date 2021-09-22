@@ -14,8 +14,12 @@ const _setProducts = (products) => {
 //THUNK
 export const fetchProducts = () => {
     return async (dispatch) => {
-        const {data: products} = await axios.get("/api/products");
-        dispatch(_setProducts(products));
+        try {
+            const {data: products} = await axios.get("/api/products");
+            dispatch(_setProducts(products));
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
