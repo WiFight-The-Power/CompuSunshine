@@ -14,7 +14,37 @@ const User = db.define('user', {
   },
   password: {
     type: Sequelize.STRING,
-  }
+  },
+  first_name: {
+    type: Sequelize.STRING,
+  },
+  last_name: {
+    type: Sequelize.STRING,
+  },
+  user_name: {
+    type: Sequelize.STRING,
+  },
+  email: {
+    type: Sequelize.STRING,
+  },
+  phone: {
+    type: Sequelize.STRING
+  },
+  address_1: {
+    type: Sequelize.STRING,
+  },
+  address_2: {
+    type: Sequelize.STRING,
+  },
+  city: {
+    type: Sequelize.STRING,
+  },
+  state: {
+    type: Sequelize.STRING,
+  },
+  zipcode: {
+    type: Sequelize.STRING,
+  }               
 })
 
 module.exports = User
