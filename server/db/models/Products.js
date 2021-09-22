@@ -3,7 +3,7 @@ const db = require('../db')
 const axios = require('axios');
 
 
-const Product = db.define('product', {
+module.exports = db.define('product', {
     name: {
         type: Sequelize.STRING
     },

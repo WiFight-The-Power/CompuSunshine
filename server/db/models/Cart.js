@@ -1,11 +1,11 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
-const Cart = db.define('cart', {
-    id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-    },
+module.exports = db.define('cart', {
+    // id: {
+    //     type: Sequelize.INTEGER,
+    //     allowNull: false,
+    // },
     total: {
         type: Sequelize.FLOAT
     },
@@ -13,3 +13,4 @@ const Cart = db.define('cart', {
         type: Sequelize.INTEGER
     },
   });
+

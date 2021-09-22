@@ -1,6 +1,6 @@
 //this is the access point for all things database related!
 const Cart = require('./models/Cart');
-const Cartitem = require('./models/Cartitems');
+const CartItem = require('./models/Cartitems');
 const Order = require('./models/Orders');
 const OrderItem = require('./models/OrderItems');
 const Product = require('./models/Products');
@@ -13,8 +13,8 @@ const db = require('./db')
 
 //associations could go here!
 /*------- Relationship Between Cart and Cart_Items -------*/ 
-Cartitem.belongsTo(Cart);
-Cart.hasMany(Cartitem);
+CartItem.belongsTo(Cart);
+Cart.hasMany(CartItem);
 
 
 /*------- Relationship Between User and Cart -------*/ 
@@ -23,21 +23,21 @@ User.hasOne(Cart);
 
 
 /*------- Relationship Between Orders and User -------*/ 
-Orders.belongsTo(User);
+Order.belongsTo(User);
 User.hasMany(Order);
 
 
 /*------- Relationship Between Products and Cart_Items -------*/ 
-Cartitems.belongsTo(Product);
-Product.hasMany(Cartitem);
+CartItem.belongsTo(Product);
+Product.hasMany(CartItem);
 
 
 /*------- Relationship Between Products and Order Items -------*/ 
-Orderitem.belongsTo(Product);
+OrderItem.belongsTo(Product);
 Product.hasMany(OrderItem);
 
 /*------- Relationship Between Orders and Order_Item-------*/
-Orderitem.belongsTo(Order);
+OrderItem.belongsTo(Order);
 Order.hasMany(OrderItem);
 
 
@@ -45,6 +45,11 @@ Order.hasMany(OrderItem);
 module.exports = {
   db,
   models: {
-    User,
+    User, 
+    Product, 
+    OrderItem, 
+    Order, 
+    Cart, 
+    CartItem
   },
 }
