@@ -4,7 +4,7 @@ const products = [
     name: 'NVIDIA GeForce RTX 3080 10GB Graphics Card',
     brand: 'NVIDIA',
     category: 'GPUs / Graphics Cards',
-    price: '699.99',
+    price: 699.99,
     quantity: 0,
     imageUrl:
       'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6429/6429440_sd.jpg;maxHeight=640;maxWidth=550',
@@ -15,7 +15,7 @@ const products = [
     name: 'NVIDIA GeForce RTX 3060 Ti 8GB Graphics Card',
     brand: 'NVIDIA',
     category: 'GPUs / Graphics Cards',
-    price: '399.99',
+    price: 399.99,
     quantity: 10,
     imageUrl:
       'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6439/6439402_sd.jpg;maxHeight=640;maxWidth=550',
@@ -26,7 +26,7 @@ const products = [
     name: 'NVIDIA GeForce RTX 3070 8GB Graphics Card',
     brand: 'NVIDIA',
     category: 'GPUs / Graphics Cards',
-    price: '499.99',
+    price: 499.99,
     quantity: 5,
     imageUrl:
       'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6439/6439402_sd.jpg;maxHeight=640;maxWidth=550',
@@ -37,7 +37,7 @@ const products = [
     name: 'NVIDIA GeForce RTX 3090 24GB Graphics Card',
     brand: 'NVIDIA',
     category: 'GPUs / Graphics Cards',
-    price: '1499.99',
+    price: 1499.99,
     quantity: 20,
     imageUrl:
       'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6429/6429434_sd.jpg;maxHeight=640;maxWidth=550',
@@ -48,7 +48,7 @@ const products = [
     name: 'NVIDIA GeForce RTX 3070 Ti 8GB Graphics Card',
     brand: 'NVIDIA',
     category: 'GPUs / Graphics Cards',
-    price: '599.99',
+    price: 599.99,
     quantity: 0,
     imageUrl:
       'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6465/6465789_sd.jpg;maxHeight=640;maxWidth=550',
@@ -59,7 +59,7 @@ const products = [
     name: 'AMD Radeon RX 6900 XT Graphics',
     brand: 'GIGABYTE',
     category: 'GPUs / Graphics Cards',
-    price: '999.00',
+    price: 999.00,
     quantity: 1,
     imageUrl:
       'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6468/6468934_sd.jpg;maxHeight=640;maxWidth=550',
@@ -70,7 +70,7 @@ const products = [
     name: 'AMD Radeon RX 6800 XT Graphics',
     brand: 'XFX',
     category: 'GPUs / Graphics Cards',
-    price: '649.00',
+    price: 649.00,
     quantity: 16,
     imageUrl:
       'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6441/6441226_sd.jpg;maxHeight=640;maxWidth=550',
@@ -81,7 +81,7 @@ const products = [
     name: 'AMD Radeon RX 6800 Graphics',
     brand: 'AMD',
     category: 'GPUs / Graphics Cards',
-    price: '579.00',
+    price: 579.00,
     quantity: 33,
     imageUrl:
       'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6441/6441226_sd.jpg;maxHeight=640;maxWidth=550',
@@ -92,12 +92,89 @@ const products = [
     name: 'AMD Radeon RX 6700 XT Graphics',
     brand: 'AMD',
     category: 'GPUs / Graphics Cards',
-    price: '479.00',
+    price: 479.00,
     quantity: 21,
     imageUrl:
       'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6441/6441226_sd.jpg;maxHeight=640;maxWidth=550',
     description:
       'The AMD Radeon RX 6700 XT graphics card, powered by AMD RDNA 2 architecture, featuring 40 powerful enhanced Compute Units, the all-new AMD Infinity Cache and 12GB of dedicated GDDR6 memory, is engineered to deliver ultra-high frame rates and powerhouse 1440p resolution gaming.',
+  },
+  {
+    name: 'PNY - XLR8 Gaming Single Fan NVIDIA GeForce GTX 1660 SUPER',
+    brand: 'PNY',
+    category: 'GPUs / Graphics Cards',
+    price: 569.99,
+    quantity: 15,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6407/6407309_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      "Customize your gaming PC with this PNY GeForce GTX 1660 SUPER gaming graphics card. The 6GB of GDDR5 RAM deliver fast, responsive performance, while the PCIe 3.0 interface fits a number of motherboards. This PNY GeForce GTX 1660 SUPER gaming graphics card has HDMI, DVI-D and DisplayPort outputs that let you connect to multiple monitors for advanced gameplay."  
+  },
+  {
+    name: 'GIGABYTE - NVIDIA GeForce RTX 3060 12GB',
+    brand: 'GIGABYTE',
+    category: 'GPUs / Graphics Cards',
+    price: 479.99,
+    quantity: 2,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6468/6468925_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      "Get the ultimate gaming performance with GIGABYTE RTX 3060 Graphics Cards. Powered by NVIDIA's 2nd gen RTX architecture and refined with WINDFORCE cooling technology, the GeForce RTX 3060 VISION OC 12G (rev. 2.0) brings stunning visuals, amazingly fast frame rates, and AI acceleration to games and creative applications with its enhanced RT Cores and Tensor Cores."  
+  },
+  {
+    name: 'GIGABYTE - NVIDIA GeForce RTX 3070TI AORUS MASTER 8GB',
+    brand: 'GIGABYTE',
+    category: 'GPUs / Graphics Cards',
+    price: 979.99,
+    quantity: 12,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6467/6467788_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      "Get the ultimate gaming performance with AORUS RTX 3070 Ti Graphics Cards. Powered by NVIDIA's 2nd gen RTX architecture and refined with AORUS's Max Covered cooling technology, the AORUS GeForce RTX 3070 Ti MASTER 8G brings stunning visuals, amazingly fast frame rates, and AI acceleration to games and creative applications with its enhanced RT Cores and Tensor Cores, and superfast G6X memory."  
+  },
+  {
+    name: 'ASUS - NVIDIA GeForce GTX 1660 SUPER OC',
+    brand: 'ASUS',
+    category: 'GPUs / Graphics Cards',
+    price: 329.99,
+    quantity: 45,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6405/6405063_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      "Improve your computer visuals with this Asus TUF Gaming GeForce GTX 1660 SUPER graphics card. The NVIDIA Turing architecture coupled with a blazing-fast GDDR6 memory smoothly handles demanding games, while the DirectCU II copper heat-pipes provide better cooling during long sessions in battlefields. This Asus TUF Gaming GeForce GTX 1660 SUPER graphics card features the GeForce Experience for capturing, live-streaming and sharing content with anyone."  
+  },
+  {
+    name: 'GIGABYTE - NVIDIA GeForce RTX 3060 12GB',
+    brand: 'GIGABYTE',
+    category: 'GPUs / Graphics Cards',
+    price: 1599.99,
+    quantity: 22,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6468/6468928_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      "Get the ultimate gaming performance with GIGABYTE RTX 3060 Graphics Cards. Powered by NVIDIA's 2nd gen RTX architecture and refined with WINDFORCE cooling technology, the GeForce RTX 3060 EAGLE OC 12G (rev. 2.0) brings stunning visuals, amazingly fast frame rates, and AI acceleration to games and creative applications with its enhanced RT Cores and Tensor Cores."  
+  },
+  {
+    name: 'ASUS - NVIDIA GeForce RTX 3060 12GB',
+    brand: 'ASUS',
+    category: 'GPUs / Graphics Cards',
+    price: 529.99,
+    quantity: 21,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6460/6460665_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      "From top to bottom, the ROG Strix GeForce RTX™ 3060 has been designed to push performance boundaries. A fresh design and more metal surrounds a grouping of Axial-tech fans that leverage a new rotation scheme"  
+  },
+  {
+    name: 'GIGABYTE - NVIDIA GeForce RTX 3070TI EAGLE 8GB',
+    brand: 'GIGABYTE',
+    category: 'GPUs / Graphics Cards',
+    price: 599.99,
+    quantity: 79,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6467/6467782_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      "Get the ultimate gaming performance with AORUS RTX 3070 Ti Graphics Cards. Powered by NVIDIA's 2nd gen RTX architecture and refined with GIGABYTE's WINDFORCE cooling technology, the GeForce RTX 3070 Ti EAGLE 8G brings stunning visuals, amazingly fast frame rates, and AI acceleration to games and creative applications with its enhanced RT Cores and Tensor Cores, and superfast G6X memory."  
   },
 
   //MONITORS
@@ -164,6 +241,62 @@ const products = [
       'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6451/6451082_sd.jpg;maxHeight=640;maxWidth=550',
     description:
       "LG's premium UltraWide monitors immerse you in everything from content creation to gaming. See a panoramic view made possible by the extra wide 21:9 IPS display for true color accuracy at wide angles. Experience easier multitasking, quickly switch between applications and enjoy a full, unencumbered view.",
+  },
+  {
+    name: 'Apple - Pro Display XDR - Nano-Texture Glass',
+    brand: 'Apple',
+    category: 'Monitors',
+    price: 5999.99,
+    quantity: 40,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6949/6949006_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      `Introducing Apple Pro Display XDR. A massive 32" LCD display with Retina 6K resolution and 20.4 million pixels. Gorgeous P3 wide color and 10-bit depth for over a billion colors and very smooth gradients. Extreme dynamic range (XDR) with quality brightness and contrast for vivid, true-to-life images. Extra-wide viewing angle and reference modes based on industry standards. Nano-texture glass option for minimized glare. Pair with the modular Pro Stand for adjustability and flexibility on the go, or use the VESA mount adapter to attach to VESA mounts or arms. It's a groundbreaking display built for the most demanding professionals. Stand sold separately.`  
+  },
+  {
+    name: 'Apple - Pro Display XDR - Standard Glass',
+    brand: 'Apple',
+    category: 'Monitors',
+    price: 4999.99,
+    quantity: 30,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6949/6949006_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      `
+      Introducing Apple Pro Display XDR. A massive 32" LCD display with Retina 6K resolution and 20.4 million pixels.¹ Gorgeous P3 wide color and 10-bit depth for over a billion colors and very smooth gradients. Extreme dynamic range (XDR) with quality brightness and contrast for vivid, true-to-life images. Extra-wide viewing angle and reference modes based on industry standards. Pair with the modular Pro Stand for adjustability and flexibility on the go, or use the VESA mount adapter to attach to VESA mounts or arms. It's a groundbreaking display built for the most demanding professionals. Stand sold separately.`  
+  },
+  {
+    name: 'LG - 38” UltraWide 21:9 Curved WQHD+ Nano IPS HDR Monitor',
+    brand: 'LG',
+    category: 'Monitors',
+    price: 1599.99,
+    quantity: 18,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6419/6419975_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      `Expansive views to work hard and play harder with a 1ms Nano IPS Display. More than a curved monitor, this is an all-around workhorse. At 38" and 21:9 screen ratio, the Wide QHD IPS Display combines color intensity and purity with ultra-fast 1ms response rates. Complete with multitasking features to work hard and cutting-edge gaming features to play hard, along with an Ergo Stand to keep you comfortable either way.`  
+  },
+  {
+    name: 'LG - UltraGear 34” Nano IPS Curved',
+    brand: 'LG',
+    category: 'Monitors',
+    price: 1299.99,
+    quantity: 10,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6451/6451084_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      `Zero In with LG UltraGear™. Getting into that place where it all flows. How you focus, how you play, how you win. LG UltraGear™ is made to help you find the perfect state. It delivers the latest hardware, specs, ergonomics, and the ultimate sensory experience. With gaming-focused features like an immersive 34” Curved UltraWide QHD (3440 x 1440) screen, NVIDIA® G-SYNC® ULTIMATE, 1ms (GtG) response times, pro-level customization and fast, vivid Nano IPS panels, it's immersion on a whole new level.`  
+  },
+  {
+    name: 'LG - 32" UltraFine IPS LED 4K UHD FreeSync Monitor',
+    brand: 'LG',
+    category: 'Monitors',
+    price: 1299.99,
+    quantity: 0,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6314/6314048_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      `Work on professional creative projects with this 31.5-inch LG UltraFine 4K monitor. Nano IPS and VESA DisplayHDR 600 color technologies provide accurate display of image details for precise color grading and efficiency in various post-production tasks. The Thunderbolt 3 interface of this LG UltraFine 4K monitor supports daisy-chaining, high-speed data transfers and laptop charging.`  
   },
 
   //CPUs
@@ -300,6 +433,39 @@ const products = [
       'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6426/6426288cv1d.jpg;maxHeight=640;maxWidth=550',
     description:
       'HyperX FURY DDR4 RGB* features RGB lighting and speeds up to 3466MHz** for a stylish performance boost. FURY DDR4 RGB’s XMP-ready and available in 2400MHz–3466MHz speeds, CL15–16 latencies, 8GB and 16GB single module capacities, and 16GB–64GB kit capacities. It features Plug N Play automatic overclocking at 2400MHz and 2666MHz speeds and is compatible with the latest Intel and AMD CPUs. FURY DDR4 RGB’s backed by a lifetime , a worry-free, cost-effective upgrade.',
+  },
+  {
+    name: 'CORSAIR - Dominator Platinum RGB 64GB (4x16GB)',
+    brand: 'CORSAIR',
+    category: 'RAM / Memory',
+    price: 549.99,
+    quantity: 100,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6337/6337723_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      `Boost PC performance with this versatile Corsair Dominator Platinum RGB 64GB DDR4 memory kit. Hand-sorted tightly screened memory chips provide high-frequency performance and quick response times, while an integrated heat spreader pushes heat away from the modules to keep the RAM cool. This Corsair Dominator Platinum RGB 64GB DDR4 memory kit is compatible with a variety of Intel and AMD DDR4 motherboards.`  
+  },
+  {
+    name: 'HyperX Predator HX432C16PB3AK2/64 64GB (2x32GB)',
+    brand: 'HyperX',
+    category: 'RAM / Memory',
+    price: 436.99,
+    quantity: 60,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6459/6459266_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      `HyperX Predator DDR4 RGB pairs brilliant RGB style with dazzling performance. Easily create your look with HyperX's Infrared Sync technology, no cables required. Predator DDR4 RGB's CL19 latency and speeds up to 4000MHz provide a powerful boost. Featuring Intel XMP-ready profiles optimized for Intel's latest chipsets, it's available in 8GB singles and kits of 2 or 4 with 16GB-32GB capacities.`  
+  },
+  {
+    name: 'PNY - 64GB (4x16GB) 3200MHz DDR4',
+    brand: 'PNY',
+    category: 'RAM / Memory',
+    price: 299.99,
+    quantity: 6,
+    imageUrl:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6467/6467033_sd.jpg;maxHeight=640;maxWidth=550',
+    description:
+      `A PNY XLR8 Gaming EPIC-X RGB Memory Upgrade offers a brilliant RGB design combined with extreme overclocked performance, taking a PC to the next level.`  
   },
 ]
 
