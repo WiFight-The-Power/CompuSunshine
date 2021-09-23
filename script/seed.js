@@ -1,6 +1,9 @@
 'use strict'
 
-const {db, models: {User, Product} } = require('../server/db')
+const {
+  db,
+  models: { User, Product },
+} = require('../server/db')
 
 /**
  * seed - this function clears the database, updates tables to
@@ -12,13 +15,49 @@ async function seed() {
 
   // Creating Users
   const users = await Promise.all([
-    User.create({ first_name: 'cody', last_name: 'smith', user_name: 'cody', email: "codys@gmail.com", phone: '201544093', address_1: '205 park lane', address_2: 'apt 200', city: 'Detroit', state: 'Michigan', zipcode: '09493', password: '123', }),
-    User.create({ first_name: 'Mark', last_name: 'Johnson', user_name: 'mark', email: "mark@gmail.com", phone: '201544593', address_1: '204 park lane', address_2: 'apt 100', city: 'Detroit', state: 'Michigan', zipcode: '09493', password: '123', }),
+    User.create({
+      first_name: 'cody',
+      last_name: 'smith',
+      username: 'cody',
+      email: 'codys@gmail.com',
+      phone: '201544093',
+      address_1: '205 park lane',
+      address_2: 'apt 200',
+      city: 'Detroit',
+      state: 'Michigan',
+      zipcode: '09493',
+      password: '123',
+    }),
+    User.create({
+      first_name: 'Mark',
+      last_name: 'Johnson',
+      username: 'mark',
+      email: 'mark@gmail.com',
+      phone: '201544593',
+      address_1: '204 park lane',
+      address_2: 'apt 100',
+      city: 'Detroit',
+      state: 'Michigan',
+      zipcode: '09493',
+      password: '123',
+    }),
   ])
 
   const products = await Promise.all([
-    Product.create({name: 'MSI 3060 GPU', brand: 'MSI', category: 'Graphics Cards', price: 599, quantity: 5}),
-    Product.create({name: 'MSI 3080 GPU', brand: 'MSI', category: 'Graphics Cards', price: 999, quantity: 6}),
+    Product.create({
+      name: 'MSI 3060 GPU',
+      brand: 'MSI',
+      category: 'Graphics Cards',
+      price: 599,
+      quantity: 5,
+    }),
+    Product.create({
+      name: 'MSI 3080 GPU',
+      brand: 'MSI',
+      category: 'Graphics Cards',
+      price: 999,
+      quantity: 6,
+    }),
   ])
 
   console.log(`seeded ${users.length} users`)
@@ -26,12 +65,12 @@ async function seed() {
   return {
     users: {
       cody: users[0],
-      murphy: users[1]
+      murphy: users[1],
     },
     products: {
       msi3060: products[0],
-      msi3080: products[1]
-    }
+      msi3080: products[1],
+    },
   }
 }
 
