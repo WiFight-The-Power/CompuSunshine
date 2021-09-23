@@ -4,73 +4,60 @@ const {
   db,
   models: { User, Product },
 } = require('../server/db')
+const products = require('./seed_products')
 
 /**
  * seed - this function clears the database, updates tables to
  *      match the models, and populates the database.
  */
 async function seed() {
-  await db.sync({ force: true }) // clears db and matches models to tables
-  console.log('db synced!')
+  try {
+    await db.sync({ force: true }) // clears db and matches models to tables
+    console.log('db synced!')
 
-  // Creating Users
-  const users = await Promise.all([
-    User.create({
-      first_name: 'cody',
-      last_name: 'smith',
-      username: 'cody',
-      email: 'codys@gmail.com',
-      phone: '201544093',
-      address_1: '205 park lane',
-      address_2: 'apt 200',
-      city: 'Detroit',
-      state: 'Michigan',
-      zipcode: '09493',
-      password: '123',
-    }),
-    User.create({
-      first_name: 'Mark',
-      last_name: 'Johnson',
-      username: 'mark',
-      email: 'mark@gmail.com',
-      phone: '201544593',
-      address_1: '204 park lane',
-      address_2: 'apt 100',
-      city: 'Detroit',
-      state: 'Michigan',
-      zipcode: '09493',
-      password: '123',
-    }),
-  ])
+    // Creating Users
+    const users = await Promise.all([
+      User.create({
+        first_name: 'cody',
+        last_name: 'smith',
+        username: 'cody',
+        email: 'codys@gmail.com',
+        phone: '201544093',
+        address_1: '205 park lane',
+        address_2: 'apt 200',
+        city: 'Detroit',
+        state: 'Michigan',
+        zipcode: '09493',
+        password: '123',
+      }),
+      User.create({
+        first_name: 'Mark',
+        last_name: 'Johnson',
+        username: 'mark',
+        email: 'mark@gmail.com',
+        phone: '201544593',
+        address_1: '204 park lane',
+        address_2: 'apt 100',
+        city: 'Detroit',
+        state: 'Michigan',
+        zipcode: '09493',
+        password: '123',
+      }),
+    ])
 
-  const products = await Promise.all([
-    Product.create({
-      name: 'MSI 3060 GPU',
-      brand: 'MSI',
-      category: 'Graphics Cards',
-      price: 599,
-      quantity: 5,
-    }),
-    Product.create({
-      name: 'MSI 3080 GPU',
-      brand: 'MSI',
-      category: 'Graphics Cards',
-      price: 999,
-      quantity: 6,
-    }),
-  ])
+    // Creating Products
+    await Promise.all(products.map(product => Product.create(product)))
 
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
-  return {
-    users: {
-      cody: users[0],
-      murphy: users[1],
-    },
-    products: {
-      msi3060: products[0],
-      msi3080: products[1],
-    },
+    console.log(`seeded ${users.length} users`)
+    console.log(`seeded successfully`)
+    return {
+      users: {
+        cody: users[0],
+        murphy: users[1],
+      },
+    }
+  } catch (err) {
+    console.log(err)
   }
 }
 
