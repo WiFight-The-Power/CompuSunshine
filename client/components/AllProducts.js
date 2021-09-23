@@ -13,15 +13,14 @@ export class AllProducts extends React.Component {
 
     return (
       <div>
-        <h2>All Products</h2>
-        <div>
+        <div className='all-products-view'>
           {products.length ? (
             products.map(product => (
-              <div key={product.id}>
-                <img src={product.imageUrl} />
+              <div className='single-product' key={product.id}>
+                <img className='product-img' src={product.imageUrl} />
                 <h3>{product.name}</h3>
-                <h4>{product.price}</h4>
-                <p>{product.description}</p>
+                <h5>Brand: {product.brand}</h5>
+                <h3>${product.price}</h3>
               </div>
             ))
           ) : (
