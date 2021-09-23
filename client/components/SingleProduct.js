@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 export class SingleProduct extends React.Component {
   componentDidMount() {
-    this.props.getProduct(this.props.match.params.id)
+    this.props.getProduct(this.props.match.params.productId)
   }
 
   render() {
