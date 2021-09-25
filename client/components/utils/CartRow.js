@@ -10,7 +10,7 @@ function CartRow({ id, name, price, imageUrl, quantity, guestUser }) {
         <h3>{name}</h3>
         <img src={imageUrl} alt="wassGud!" />
       </td>
-      <td>{price}</td>
+      <td>${price}</td>
       <td>
         <button>-</button>
         {quantity}
