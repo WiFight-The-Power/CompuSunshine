@@ -16,11 +16,12 @@ function Cart({ cart, isLoggedIn, loggedInUser, getCart, state }) {
   }, [loggedInUser]);
 
   if (isLoggedIn) {
-    console.log("grab from database bum!", cart);
-    rowView = !cart ? (
-      <h1 style={{ textAlign: "center" }}>Cart is Empty, ya bum!</h1>
-    ) : (
-      cart.map((item) => (
+    if (!cart) {
+      rowView = <h1 style={{ textAlign: "center" }}>Cart is Empty, ya bum!</h1>;
+    } else {
+      /* Added sorted list to keep from element reshifting after rerender! */
+      let sortedCart = cart.sort((itemA, itemB) => itemA.id - itemB.id);
+      rowView = sortedCart.map((item) => (
         <CartRow
           key={item.id}
           id={item.id}
@@ -28,9 +29,11 @@ function Cart({ cart, isLoggedIn, loggedInUser, getCart, state }) {
           price={item.price}
           imageUrl={item.imageUrl}
           quantity={item.quantity}
+          loggedInUser={loggedInUser}
+          guestUser={false}
         />
-      ))
-    );
+      ));
+    }
   } else {
     console.log("on guest!!!!!!");
     const guestCart = JSON.parse(localStorage.getItem("cart"));
@@ -46,6 +49,8 @@ function Cart({ cart, isLoggedIn, loggedInUser, getCart, state }) {
             price={item.price}
             imageUrl={item.imageUrl}
             quantity={item.quantity}
+            loggedInUser={loggedInUser}
+            guestUser={true}
           />
         ))
       );
