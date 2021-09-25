@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { fetchProduct } from "../store/product";
 import { setProduct } from "../store/product";
 import { Link } from "react-router-dom";
-import { addToCart } from "../store/cart";
+import { addToGuestCart, addToUserCart } from "../store/cart";
 
 export class SingleProduct extends React.Component {
   constructor() {
@@ -16,15 +16,14 @@ export class SingleProduct extends React.Component {
   }
 
   handleClick() {
-    let userId = null;
     const { product } = this.props;
     const num = Math.round(product.price);
-    // console.log(num)
 
-    if (userId !== null) {
-      this.props.addProduct(product.id, userId, num);
+    if (this.props.isLoggedIn) {
+      let userId = this.props.loggedInUser;
+      this.props.add_UserProduct(product.id, userId, num, this.props.product);
     } else {
-      this.props.addGuestProduct(product);
+      this.props.add_GuestProduct(product);
     }
   }
 
@@ -48,13 +47,15 @@ export class SingleProduct extends React.Component {
 
 const mapState = (state) => ({
   product: state.product,
+  isLoggedIn: !!state.auth.id,
+  loggedInUser: state.auth.id,
 });
 
 const mapDispatch = (dispatch) => ({
   getProduct: (id) => dispatch(fetchProduct(id)),
-  addProduct: (id, loggedInUser, price) =>
-    dispatch(setProduct(id, loggedInUser, price)),
-  addGuestProduct: (product) => dispatch(addToCart(product)),
+  add_UserProduct: (id, loggedInUser, price, productObj) =>
+    dispatch(addToUserCart(id, loggedInUser, price, productObj)),
+  add_GuestProduct: (product) => dispatch(addToGuestCart(product)),
 });
 
 export default connect(mapState, mapDispatch)(SingleProduct);

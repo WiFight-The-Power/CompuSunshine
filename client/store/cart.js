@@ -6,36 +6,10 @@ const SUBTRACT_QUANTITY_FROM_CART = "SUBTRACT_QUANTITY_FROM_CART";
 const DELETE_FROM_CART = "DELETE_FROM_CART";
 const ADD_TO_CART = "ADD_TO_CART";
 
-const _addToCart = (cartItems) => ({
-  type: ADD_TO_CART,
-  cartItems,
-});
-
-const _loadCart = (cart) => {
+const _loadCart = (cartItems) => {
   return {
     type: LOAD_CART,
-    cart,
-  };
-};
-
-const _addQuantityToCart = (productId) => {
-  return {
-    type: ADD_QUANTITY_TO_CART,
-    productId,
-  };
-};
-
-const _subtractQuantityFromCart = (productId) => {
-  return {
-    type: SUBTRACT_QUANTITY_FROM_CART,
-    productId,
-  };
-};
-
-const _deleteFromCart = (productId) => {
-  return {
-    type: DELETE_FROM_CART,
-    productId,
+    cartItems,
   };
 };
 
@@ -51,9 +25,24 @@ const _deleteFromCart = (productId) => {
 //   };
 // };
 
-export const addToCart =
+export const fetchCart = (loggedInUser) => {
+  return async (dispatch) => {
+    try {
+      if (loggedInUser) {
+        const { data: cartItems } = await axios.get(
+          `/api/cart/${loggedInUser}`
+        );
+        dispatch(_loadCart(cartItems));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const addToGuestCart =
   ({ id, price, imageUrl, name }) =>
-  (dispatch) => {
+  () => {
     let cartItems =
       JSON.parse(localStorage.getItem("cart")) !== null
         ? JSON.parse(localStorage.getItem("cart"))
@@ -79,16 +68,29 @@ export const addToCart =
         },
       ];
     }
-
-    dispatch(_addToCart(cartItems));
     localStorage.setItem("cart", JSON.stringify(cartItems));
-    // console.log(cartItems);
   };
 
+//THUNK
+export const addToUserCart = (productId, loggedInUser, price, productObj) => {
+  return async (dispatch) => {
+    try {
+      console.log("on meeeee");
+      const obj = { productId, loggedInUser, price, productObj };
+      console.log(productId, "hey");
+      const { data: product } = await axios.post(`/api/cart`, obj);
+      console.log(product);
+      dispatch(fetchCart(loggedInUser));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 //REDUCER
-export default function guestCartReducer(state = [], action) {
+export default function cartReducer(state = [], action) {
   switch (action.type) {
-    case ADD_TO_CART:
+    case LOAD_CART:
       return action.cartItems;
     default:
       return state;
