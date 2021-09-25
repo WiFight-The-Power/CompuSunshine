@@ -17,7 +17,9 @@ function CartRow({ id, name, price, imageUrl, quantity, guestUser }) {
         <button>+</button>
       </td>
       <td>${quantity * price}</td>
-      <td>X delete</td>
+      <td>
+        <button>X delete</button>
+      </td>
     </tr>
   );
 }
