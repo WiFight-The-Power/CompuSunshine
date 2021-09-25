@@ -26,7 +26,7 @@ User.hasMany(Order);
 
 Product.belongsToMany(Order, {through: OrderItem});
 Order.belongsToMany(Product, {through: OrderItem});
-
+Order.hasMany(OrderItem);
 
 
 
