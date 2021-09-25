@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { fetchProduct } from "../store/product";
 import { setProduct } from "../store/product";
 import { Link } from "react-router-dom";
+import { addToCart } from "../store/cart";
 
 export class SingleProduct extends React.Component {
   constructor() {
@@ -19,7 +20,12 @@ export class SingleProduct extends React.Component {
     const { product } = this.props;
     const num = Math.round(product.price);
     // console.log(num)
-    this.props.addProduct(product.id, userId, num);
+
+    if (userId !== null) {
+      this.props.addProduct(product.id, userId, num);
+    } else {
+      this.props.addGuestProduct(product);
+    }
   }
 
   render() {
@@ -48,6 +54,7 @@ const mapDispatch = (dispatch) => ({
   getProduct: (id) => dispatch(fetchProduct(id)),
   addProduct: (id, loggedInUser, price) =>
     dispatch(setProduct(id, loggedInUser, price)),
+  addGuestProduct: (product) => dispatch(addToCart(product)),
 });
 
 export default connect(mapState, mapDispatch)(SingleProduct);
