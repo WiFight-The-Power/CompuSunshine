@@ -2,9 +2,9 @@ const Sequelize = require("sequelize");
 const db = require("../db");
 
 module.exports = db.define("orderitem", {
-  // quantity: {
-  //     type: Sequelize.INTEGER,
-  // },        We will work off of each instance
+  quantity: {
+    type: Sequelize.INTEGER,
+  },
   status: {
     type: Sequelize.ENUM,
     values: ["pending", "purchased"],
