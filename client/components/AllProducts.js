@@ -1,23 +1,23 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { fetchProducts } from '../store/products'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { connect } from "react-redux";
+import { fetchProducts } from "../store/products";
+import { Link } from "react-router-dom";
 
 export class AllProducts extends React.Component {
   componentDidMount() {
-    this.props.getProducts()
+    this.props.getProducts();
   }
 
   render() {
-    const { products } = this.props
-
+    const { products } = this.props;
+    console.log(this.props.state);
     return (
       <div>
-        <div className='all-products-view'>
+        <div className="all-products-view">
           {products.length ? (
-            products.map(product => (
-              <div className='single-product' key={product.id}>
-                <img className='product-img' src={product.imageUrl} />
+            products.map((product) => (
+              <div className="single-product" key={product.id}>
+                <img className="product-img" src={product.imageUrl} />
                 <Link to={`/products/${product.id}`}>
                   <h3>{product.name}</h3>
                 </Link>
@@ -30,16 +30,17 @@ export class AllProducts extends React.Component {
           )}
         </div>
       </div>
-    )
+    );
   }
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   products: state.products,
-})
+  state: state,
+});
 
-const mapDispatch = dispatch => ({
+const mapDispatch = (dispatch) => ({
   getProducts: () => dispatch(fetchProducts()),
-})
+});
 
-export default connect(mapState, mapDispatch)(AllProducts)
+export default connect(mapState, mapDispatch)(AllProducts);
