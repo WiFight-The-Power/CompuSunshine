@@ -5,17 +5,21 @@ import { connect } from "react-redux";
 class GuestCart extends Component {
   render() {
     const guestCart = JSON.parse(localStorage.getItem("cart"));
-
-    const rowView = guestCart.map((item) => (
-      <CartRow
-        key={item.id}
-        id={item.id}
-        name={item.name}
-        price={item.price}
-        imageUrl={item.imageUrl}
-        quantity={item.quantity}
-      />
-    ));
+    const rowView =
+      guestCart === null ? (
+        <h1 style={{ textAlign: "center" }}>Cart is Empty, ya bum!</h1>
+      ) : (
+        guestCart.map((item) => (
+          <CartRow
+            key={item.id}
+            id={item.id}
+            name={item.name}
+            price={item.price}
+            imageUrl={item.imageUrl}
+            quantity={item.quantity}
+          />
+        ))
+      );
 
     return (
       <div>
