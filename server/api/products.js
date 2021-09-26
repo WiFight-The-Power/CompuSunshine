@@ -23,3 +23,33 @@ router.get("/:productId", async (req, res, next) => {
     next(err);
   }
 });
+
+
+router.post('/', requireToken, isAdmin, async (req, res, next) => {
+  try{
+    const newProduct = await Product.create(req.body);
+    res.send(newProduct);
+  } catch (error) {
+    next(error);
+  }
+})
+
+router.put('/:productId', requireToken, isAdmin, async (req, res, next) => {
+  try {
+    const productToUpdate = await Product.findByPk(req.params.productId);
+    const updateProduct = await productToUpdate.update(req.body);
+    res.send(updateProduct);
+  } catch (error) {
+    next(error);
+  }
+})
+
+router.delete('/:productId', requireToken, isAdmin, async(req, res, next) => {
+  try {
+    const productToDelete = await Product.findByPk(req.params.productId);
+    await productToDelete.destroy();
+    res.send(productToDelete);
+  } catch(error) {
+    next(error);
+  }
+})
