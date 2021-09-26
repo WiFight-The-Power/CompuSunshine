@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const { models: { User }} = require('../db')
+const { models: { User }} = require('../db');
+const {requireToken} = require("./middleware");
 module.exports = router
 
 router.get('/', async (req, res, next) => {
