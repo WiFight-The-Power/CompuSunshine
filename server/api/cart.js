@@ -4,18 +4,6 @@ const {
 } = require("../db");
 module.exports = router;
 
-// Path is /api/products/:productId (PUT)
-// router.put("/:productId", async (req, res, next) => {
-//   try {
-//     const product = await OrderItem.findByPk(req.params.productId);
-//     const prevQuantity = product.quantity;
-//     product.update({ quantity: prevQuantity + 1 });
-//     res.status(200).json(product);
-//   } catch (err) {
-//     next(err);
-//   }       (Apollos Need this for testing purposes)
-// });
-
 // Path is /api/cart/ (GET)
 router.get("/:userId", async (req, res, next) => {
   /* Grab all the items that belong to user */
@@ -43,10 +31,33 @@ router.get("/:userId", async (req, res, next) => {
   }
 });
 
+// Path is /api/cart/:cartItem (PUT) UPDATE CART
+router.put("/:cartItem", async (req, res, next) => {
+  try {
+    const { task: operation } = req.body;
+    const cartItem = await OrderItem.findByPk(req.params.cartItem);
+    const prevQuantity = cartItem.quantity;
+
+    if (operation === "add") {
+      await cartItem.update({ quantity: prevQuantity + 1 });
+    }
+    if (operation === "subtract") {
+      (await prevQuantity) > 1 &&
+        cartItem.update({ quantity: prevQuantity - 1 });
+    }
+    if (operation === "remove") {
+      await cartItem.destroy();
+    }
+
+    res.status(200).json(cartItem);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Path is /api/products/:orderInfo (POST)
 router.post("/", async (req, res, next) => {
   try {
-    // const { productId, loggedInUser, price, guestUserId } = req.body;   (Apollos Need this for testing purposes)
     const { productId, loggedInUser, price, productObj } = req.body;
 
     const [order, createdOrder] = await Order.findOrCreate({
@@ -57,17 +68,14 @@ router.post("/", async (req, res, next) => {
     });
 
     // const [newOrder, created] = await Order.findOrCreate({
-    //   where: { userId: loggedInUser and status: "fullfilled" },
+    //   where: { userId: loggedInUser and status: "fullfilled" },  <-- (user will be able to see pass orders in the future!)
     //   defaults: {
     //     status: "pending",
     //   },
     // });    (Apollos Need this for testing purposes) This will be useful when a customer has submited their entire order, they will need a whole new cart/order to purchase new things!
-    console.log(
-      productObj.imageUrl,
-      "jdskfjadklsfjaldkjfa __________________-"
-    );
+
     const [orderItem, createdOrderItem] = await OrderItem.findOrCreate({
-      where: { orderId: order.id, productId },
+      where: { orderId: order.id, productId, status: "pending" },
       defaults: {
         status: "pending",
         price,
@@ -80,15 +88,6 @@ router.post("/", async (req, res, next) => {
 
     const prevQuantity = orderItem.quantity;
     !createdOrderItem && orderItem.update({ quantity: prevQuantity + 1 });
-
-    // new_Order_Item.setOrder(newOrder.id);
-    // new_Order_Item.setProduct(productId);
-
-    // if (loggedInUser !== "") {
-    //   newOrder.setUser(loggedInUser);
-    // } else {
-    //   newOrder.update({ guestUserId });
-    // }      (Apollos Need this for testing purposes)
 
     const product = await Product.findByPk(productId);
 

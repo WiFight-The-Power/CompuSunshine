@@ -1,9 +1,9 @@
-const Sequelize = require('sequelize')
-const db = require('../db')
+const Sequelize = require("sequelize");
+const db = require("../db");
 
-module.exports = db.define('order', {
+module.exports = db.define("order", {
   status: {
     type: Sequelize.ENUM,
-    values: ['pending', 'delivered'],
+    values: ["pending", "fullfilled"],
   },
-})
+});

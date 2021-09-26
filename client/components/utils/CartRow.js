@@ -1,9 +1,25 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchProduct } from "../../store/product";
-import { addToGuestCart, addToUserCart } from "../../store/cart";
+import { update_UserCart } from "../../store/cart";
 
-function CartRow({ id, name, price, imageUrl, quantity, guestUser }) {
+function CartRow({
+  id,
+  name,
+  price,
+  imageUrl,
+  quantity,
+  guestUser,
+  updateUserCart,
+  loggedInUser,
+}) {
+  const handleClick = (task) => {
+    if (!guestUser) {
+      console.log(id, loggedInUser, task);
+      updateUserCart(id, loggedInUser, task);
+    } else if (guestUser) {
+    }
+  };
+
   return (
     <tr>
       <td>
@@ -12,28 +28,21 @@ function CartRow({ id, name, price, imageUrl, quantity, guestUser }) {
       </td>
       <td>${price}</td>
       <td>
-        <button>-</button>
+        <button onClick={() => handleClick("subtract")}>-</button>
         {quantity}
-        <button>+</button>
+        <button onClick={() => handleClick("add")}>+</button>
       </td>
       <td>${quantity * price}</td>
       <td>
-        <button>X delete</button>
+        <button onClick={() => handleClick("remove")}>X delete</button>
       </td>
     </tr>
   );
 }
 
-const mapState = (state) => ({
-  isLoggedIn: !!state.auth.id,
-  loggedInUser: state.auth.id,
-});
-
 const mapDispatch = (dispatch) => ({
-  getProduct: (id) => dispatch(fetchProduct(id)),
-  add_UserProduct: (id, loggedInUser, price, productObj) =>
-    dispatch(addToUserCart(id, loggedInUser, price, productObj)),
-  add_GuestProduct: (product) => dispatch(addToGuestCart(product)),
+  updateUserCart: (cartId, loggedInUser, task) =>
+    dispatch(update_UserCart(cartId, loggedInUser, task)),
 });
 
-export default connect(mapState, mapDispatch)(CartRow);
+export default connect(null, mapDispatch)(CartRow);

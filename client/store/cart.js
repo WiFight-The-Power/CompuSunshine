@@ -13,17 +13,7 @@ const _loadCart = (cartItems) => {
   };
 };
 
-//THUNK
-// export const getCart = (productId) => {
-//   return async (dispatch) => {
-//     try {
-//       const { data: product } = await axios.get(`/api/products/${productId}`);
-//       dispatch(_setProduct(product));
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-// };
+/* ------------ User Cart Thunk Section ------------ */
 
 export const fetchCart = (loggedInUser) => {
   return async (dispatch) => {
@@ -39,6 +29,35 @@ export const fetchCart = (loggedInUser) => {
     }
   };
 };
+
+//THUNK
+export const update_UserCart = (cartItem, loggedInUser, task) => {
+  return async (dispatch) => {
+    try {
+      const { data: product } = await axios.put(`/api/cart/${cartItem}`, {
+        task,
+      });
+      dispatch(fetchCart(loggedInUser));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+//THUNK
+export const addToUserCart = (productId, loggedInUser, price, productObj) => {
+  return async (dispatch) => {
+    try {
+      const obj = { productId, loggedInUser, price, productObj };
+      const { data: product } = await axios.post(`/api/cart`, obj);
+      dispatch(fetchCart(loggedInUser));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+/* ------------ Guest Cart Thunk Section ------------ */
 
 export const addToGuestCart =
   ({ id, price, imageUrl, name }) =>
@@ -70,22 +89,6 @@ export const addToGuestCart =
     }
     localStorage.setItem("cart", JSON.stringify(cartItems));
   };
-
-//THUNK
-export const addToUserCart = (productId, loggedInUser, price, productObj) => {
-  return async (dispatch) => {
-    try {
-      console.log("on meeeee");
-      const obj = { productId, loggedInUser, price, productObj };
-      console.log(productId, "hey");
-      const { data: product } = await axios.post(`/api/cart`, obj);
-      console.log(product);
-      dispatch(fetchCart(loggedInUser));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
 
 //REDUCER
 export default function cartReducer(state = [], action) {
