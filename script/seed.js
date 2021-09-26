@@ -1,10 +1,11 @@
-'use strict'
+"use strict";
 
 const {
   db,
-  models: { User, Product },
-} = require('../server/db')
-const products = require('./seed_products')
+  models: { User, Product, Order, OrderItem },
+} = require("../server/db");
+const products = require("./seed_products");
+const users = require("./seed_users");
 
 /**
  * seed - this function clears the database, updates tables to
@@ -12,52 +13,20 @@ const products = require('./seed_products')
  */
 async function seed() {
   try {
-    await db.sync({ force: true }) // clears db and matches models to tables
-    console.log('db synced!')
+    await db.sync({ force: true }); // clears db and matches models to tables
+    console.log("db synced!");
 
     // Creating Users
-    const users = await Promise.all([
-      User.create({
-        first_name: 'cody',
-        last_name: 'smith',
-        username: 'cody',
-        email: 'codys@gmail.com',
-        phone: '201544093',
-        address_1: '205 park lane',
-        address_2: 'apt 200',
-        city: 'Detroit',
-        state: 'Michigan',
-        zipcode: '09493',
-        password: '123',
-      }),
-      User.create({
-        first_name: 'Mark',
-        last_name: 'Johnson',
-        username: 'mark',
-        email: 'mark@gmail.com',
-        phone: '201544593',
-        address_1: '204 park lane',
-        address_2: 'apt 100',
-        city: 'Detroit',
-        state: 'Michigan',
-        zipcode: '09493',
-        password: '123',
-      }),
-    ])
+    await User.bulkCreate(users);
 
     // Creating Products
-    await Promise.all(products.map(product => Product.create(product)))
+    await Product.bulkCreate(products);
 
-    console.log(`seeded ${users.length} users`)
-    console.log(`seeded successfully`)
-    return {
-      users: {
-        cody: users[0],
-        murphy: users[1],
-      },
-    }
+    console.log(`seeded ${users.length} users`);
+    console.log(`seeded ${products.length} products`);
+    console.log(`seeded successfully`);
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 }
 
@@ -67,16 +36,16 @@ async function seed() {
  The `seed` function is concerned only with modifying the database.
 */
 async function runSeed() {
-  console.log('seeding...')
+  console.log("seeding...");
   try {
-    await seed()
+    await seed();
   } catch (err) {
-    console.error(err)
-    process.exitCode = 1
+    console.error(err);
+    process.exitCode = 1;
   } finally {
-    console.log('closing db connection')
-    await db.close()
-    console.log('db connection closed')
+    console.log("closing db connection");
+    await db.close();
+    console.log("db connection closed");
   }
 }
 
@@ -86,8 +55,8 @@ async function runSeed() {
   any errors that might occur inside of `seed`.
 */
 if (module === require.main) {
-  runSeed()
+  runSeed();
 }
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
-module.exports = seed
+module.exports = seed;
