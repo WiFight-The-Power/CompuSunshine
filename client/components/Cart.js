@@ -3,15 +3,7 @@ import CartRow from "./utils/CartRow";
 import { connect } from "react-redux";
 import { fetchCart, fetch_GuestCart } from "../store/cart";
 
-function Cart({
-  cart,
-  isLoggedIn,
-  loggedInUser,
-  getCart,
-  guestCart,
-  getGuestCart,
-  state,
-}) {
+function Cart({ cart, isLoggedIn, loggedInUser, getCart, guestCart, getGuestCart, state }) {
   console.log(loggedInUser, "what we need ");
   let rowView;
 
@@ -30,12 +22,12 @@ function Cart({
     } else {
       /* Added sorted list to keep from element reshifting after rerender! */
       let sortedCart = cart.sort((itemA, itemB) => itemA.id - itemB.id);
-      rowView = sortedCart.map((item) => (
+      rowView = sortedCart.map(item => (
         <CartRow
           key={item.id}
           id={item.id}
           name={item.name}
-          price={item.price / 100}
+          price={item.price}
           imageUrl={item.imageUrl}
           quantity={item.quantity}
           loggedInUser={loggedInUser}
@@ -51,7 +43,7 @@ function Cart({
       guestCart === null ? (
         <h1 style={{ textAlign: "center" }}>Cart is Empty, ya bum!</h1>
       ) : (
-        guestCart.map((item) => (
+        guestCart.map(item => (
           <CartRow
             key={item.id}
             id={item.id}
@@ -86,7 +78,7 @@ function Cart({
   );
 }
 
-const mapState = (state) => ({
+const mapState = state => ({
   cart: state.cart.userCart,
   guestCart: state.cart.guestCart,
   isLoggedIn: !!state.auth.id,
@@ -94,8 +86,8 @@ const mapState = (state) => ({
   state: state,
 });
 
-const mapDispatch = (dispatch) => ({
-  getCart: (loggedInUser) => dispatch(fetchCart(loggedInUser)),
+const mapDispatch = dispatch => ({
+  getCart: loggedInUser => dispatch(fetchCart(loggedInUser)),
   getGuestCart: () => dispatch(fetch_GuestCart()),
 });
 
