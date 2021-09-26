@@ -34,7 +34,7 @@ export class SingleProduct extends React.Component {
       <div>
         <img src={product.imageUrl} />
         <h3>{product.name}</h3>
-        <h4>{product.price}</h4>
+        <h4>{product.price / 100}</h4>
         <h5>{product.brand}</h5>
         <h5>{product.category}</h5>
         <p>{product.description}</p>
