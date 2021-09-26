@@ -29,13 +29,13 @@ function CartRow({
         <h3>{name}</h3>
         <img src={imageUrl} alt="wassGud!" />
       </td>
-      <td>${price}</td>
+      <td>${price / 100}</td>
       <td>
         <button onClick={() => handleClick("subtract")}>-</button>
         {quantity}
         <button onClick={() => handleClick("add")}>+</button>
       </td>
-      <td>${quantity * price}</td>
+      <td>${(quantity * price) / 100}</td>
       <td>
         <button onClick={() => handleClick("remove")}>X delete</button>
       </td>

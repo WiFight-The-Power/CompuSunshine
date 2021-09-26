@@ -35,7 +35,7 @@ function Cart({
           key={item.id}
           id={item.id}
           name={item.name}
-          price={item.price}
+          price={item.price / 100}
           imageUrl={item.imageUrl}
           quantity={item.quantity}
           loggedInUser={loggedInUser}

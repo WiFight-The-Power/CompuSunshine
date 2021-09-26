@@ -22,7 +22,7 @@ export class AllProducts extends React.Component {
                   <h3>{product.name}</h3>
                 </Link>
                 <h5>Brand: {product.brand}</h5>
-                <h3>${product.price}</h3>
+                <h3>${product.price / 100}</h3>
               </div>
             ))
           ) : (
