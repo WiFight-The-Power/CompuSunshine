@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
 import CartRow from "./utils/CartRow";
 import { connect } from "react-redux";
-import { fetchCart } from "../store/cart";
+import { fetchCart, fetch_GuestCart } from "../store/cart";
 
-function Cart({ cart, isLoggedIn, loggedInUser, getCart, state }) {
+function Cart({
+  cart,
+  isLoggedIn,
+  loggedInUser,
+  getCart,
+  guestCart,
+  getGuestCart,
+  state,
+}) {
   console.log(loggedInUser, "what we need ");
   let rowView;
 
   useEffect(() => {
     try {
       getCart(loggedInUser);
+      getGuestCart();
     } catch (error) {
       console.log(error);
     }
@@ -36,7 +45,8 @@ function Cart({ cart, isLoggedIn, loggedInUser, getCart, state }) {
     }
   } else {
     console.log("on guest!!!!!!");
-    const guestCart = JSON.parse(localStorage.getItem("cart"));
+    // const guestCart = JSON.parse(localStorage.getItem("cart"));
+    console.log(guestCart, "hey");
     rowView =
       guestCart === null ? (
         <h1 style={{ textAlign: "center" }}>Cart is Empty, ya bum!</h1>
@@ -77,7 +87,8 @@ function Cart({ cart, isLoggedIn, loggedInUser, getCart, state }) {
 }
 
 const mapState = (state) => ({
-  cart: state.cart,
+  cart: state.cart.userCart,
+  guestCart: state.cart.guestCart,
   isLoggedIn: !!state.auth.id,
   loggedInUser: state.auth.id,
   state: state,
@@ -85,6 +96,7 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => ({
   getCart: (loggedInUser) => dispatch(fetchCart(loggedInUser)),
+  getGuestCart: () => dispatch(fetch_GuestCart()),
 });
 
 export default connect(mapState, mapDispatch)(Cart);

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { update_UserCart } from "../../store/cart";
+import { update_UserCart, update_GuestCart } from "../../store/cart";
 
 function CartRow({
   id,
@@ -10,6 +10,7 @@ function CartRow({
   quantity,
   guestUser,
   updateUserCart,
+  updateGuestCart,
   loggedInUser,
 }) {
   const handleClick = (task) => {
@@ -17,11 +18,13 @@ function CartRow({
       console.log(id, loggedInUser, task);
       updateUserCart(id, loggedInUser, task);
     } else if (guestUser) {
+      updateGuestCart(id, task);
     }
   };
 
   return (
     <tr>
+      {console.log(imageUrl)}
       <td>
         <h3>{name}</h3>
         <img src={imageUrl} alt="wassGud!" />
@@ -43,6 +46,7 @@ function CartRow({
 const mapDispatch = (dispatch) => ({
   updateUserCart: (cartId, loggedInUser, task) =>
     dispatch(update_UserCart(cartId, loggedInUser, task)),
+  updateGuestCart: (itemId, task) => dispatch(update_GuestCart(itemId, task)),
 });
 
 export default connect(null, mapDispatch)(CartRow);
