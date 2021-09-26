@@ -2,6 +2,7 @@ const router = require("express").Router();
 const {
   models: { Product, Order, OrderItem },
 } = require("../db");
+const {isAdmin, requireToken} = require("./middleware");
 module.exports = router;
 
 // Path is /api/products (GET)
