@@ -1,8 +1,8 @@
-const Sequelize = require('sequelize')
-const db = require('../db')
-const axios = require('axios')
+const Sequelize = require("sequelize");
+const db = require("../db");
+const axios = require("axios");
 
-module.exports = db.define('product', {
+module.exports = db.define("product", {
   name: {
     type: Sequelize.STRING,
   },
@@ -13,7 +13,7 @@ module.exports = db.define('product', {
     type: Sequelize.STRING,
   },
   price: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
   },
   quantity: {
     type: Sequelize.INTEGER,
@@ -24,4 +24,4 @@ module.exports = db.define('product', {
   description: {
     type: Sequelize.TEXT,
   },
-})
+});
