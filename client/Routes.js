@@ -15,6 +15,7 @@ import EditProduct from "./components/EditProduct";
 
 import Checkout from "./components/Checkout";
 import MyAccount from "./components/MyAccount";
+import AccountInfo from "./components/AccountInfo";
 
 /**
  * COMPONENT
@@ -65,6 +66,7 @@ class Routes extends Component {
             )}
             <Route exact path="/products" component={AllProducts} />
             <Route path="/myAccount" component={MyAccount} />
+            <Route path="/accountInfo" component={AccountInfo} />
             <Route path="/checkout" component={Checkout} />
             <Route path="/cart" component={Cart} />
             <Route path="/home" component={Home} />
