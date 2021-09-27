@@ -6,10 +6,14 @@ const SUBTRACT_QUANTITY_FROM_CART = "SUBTRACT_QUANTITY_FROM_CART";
 const DELETE_FROM_CART = "DELETE_FROM_CART";
 const ADD_TO_CART = "ADD_TO_CART";
 const LOAD_GUEST_CART = "LOAD_GUEST_CART";
+const ADD_INVENTORY_CONFLICT = "ADD_INVENTORY_CONFLICT";
+const CAN_SUBMIT = "CAN_SUBMIT";
 
 let initialState = {
   userCart: [],
   guestCart: [],
+  cartConflicts: [],
+  canSubmit: true,
 };
 
 const _loadGuestCart = (cartItems) => {
@@ -23,6 +27,20 @@ const _loadCart = (cartItems) => {
   return {
     type: LOAD_CART,
     cartItems,
+  };
+};
+
+export const _addInventoryConflict = (cartItemId) => {
+  return {
+    type: ADD_INVENTORY_CONFLICT,
+    cartItemId,
+  };
+};
+
+export const _setCanSubmit = (boolean) => {
+  return {
+    type: CAN_SUBMIT,
+    boolean,
   };
 };
 
@@ -149,6 +167,27 @@ export const update_GuestCart = (itemId, task) => {
   };
 };
 
+/* ------------ Guest Cart + User Cart Thunk Section ------------ */
+export const checkInventory = (productId, cartItemAmount, cartItemId) => {
+  return async (dispatch) => {
+    try {
+      const obj = { cartItemAmount };
+      const { data: canPurchase } = await axios.put(
+        `/api/products/checkInventory/${productId}`,
+        obj
+      );
+      console.log(canPurchase, ": Can you really buy?");
+      if (!canPurchase) {
+        dispatch(_setCanSubmit(false));
+        dispatch(_addInventoryConflict(cartItemId));
+        console.log("Two dispatch theory worked!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 //REDUCER
 export default function cartReducer(state = initialState, action) {
   switch (action.type) {
@@ -161,6 +200,16 @@ export default function cartReducer(state = initialState, action) {
       return {
         ...state,
         guestCart: action.cartItems,
+      };
+    case ADD_INVENTORY_CONFLICT:
+      return {
+        ...state,
+        cartConflicts: [...state.cartConflicts, action.cartItemId],
+      };
+    case CAN_SUBMIT:
+      return {
+        ...state,
+        canSubmit: action.boolean,
       };
     default:
       return state;

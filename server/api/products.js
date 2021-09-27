@@ -2,7 +2,7 @@ const router = require("express").Router();
 const {
   models: { Product, Order, OrderItem },
 } = require("../db");
-const {isAdmin, requireToken} = require("./middleware");
+const { isAdmin, requireToken } = require("./middleware");
 module.exports = router;
 
 // Path is /api/products (GET)
@@ -25,17 +25,31 @@ router.get("/:productId", async (req, res, next) => {
   }
 });
 
-
-router.post('/', requireToken, isAdmin, async (req, res, next) => {
-  try{
+router.post("/", requireToken, isAdmin, async (req, res, next) => {
+  try {
     const newProduct = await Product.create(req.body);
     res.send(newProduct);
   } catch (error) {
     next(error);
   }
-})
+});
 
-router.put('/:productId', requireToken, isAdmin, async (req, res, next) => {
+router.put("/checkInventory/:productId", async (req, res, next) => {
+  try {
+    let canPurchase = false;
+    const { cartItemAmount } = req.body;
+    const productToCheck = await Product.findByPk(req.params.productId);
+
+    if (productToCheck.quantity >= cartItemAmount) {
+      canPurchase = true;
+    }
+    res.send(canPurchase);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/:productId", requireToken, isAdmin, async (req, res, next) => {
   try {
     const productToUpdate = await Product.findByPk(req.params.productId);
     const updateProduct = await productToUpdate.update(req.body);
@@ -43,14 +57,14 @@ router.put('/:productId', requireToken, isAdmin, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-})
+});
 
-router.delete('/:productId', requireToken, isAdmin, async(req, res, next) => {
+router.delete("/:productId", requireToken, isAdmin, async (req, res, next) => {
   try {
     const productToDelete = await Product.findByPk(req.params.productId);
     await productToDelete.destroy();
     res.send(productToDelete);
-  } catch(error) {
+  } catch (error) {
     next(error);
   }
-})
+});
