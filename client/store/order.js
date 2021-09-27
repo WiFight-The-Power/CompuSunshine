@@ -5,14 +5,14 @@ const SET_ORDER = "SET_ORDER";
 const UPDATE_ORDER = "UPDATE_ORDER";
 
 //ACTION CREATOR
-export const _setOrder = order => {
+export const _setOrder = (order) => {
   return {
     type: SET_ORDER,
     order,
   };
 };
 
-export const _updateOrder = order => {
+export const _updateOrder = (order) => {
   return {
     type: UPDATE_ORDER,
     order,
@@ -21,8 +21,8 @@ export const _updateOrder = order => {
 
 //THUNK
 
-export const fetchOrder = userId => {
-  return async dispatch => {
+export const fetchOrder = (userId) => {
+  return async (dispatch) => {
     try {
       const { data: order } = await axios.get(`/api/orders/${userId}`);
       dispatch(_setOrder(order));
@@ -32,10 +32,13 @@ export const fetchOrder = userId => {
   };
 };
 
-export const updateOrder = order => {
-  return async dispatch => {
+export const updateOrder = (order) => {
+  return async (dispatch) => {
     try {
-      const { data: fulfilled } = await axios.put(`/api/orders/${order.id}`, order);
+      const { data: fulfilled } = await axios.put(
+        `/api/orders/${order.id}`,
+        order
+      );
       dispatch(_updateOrder(fulfilled));
     } catch (error) {
       console.log(error);
