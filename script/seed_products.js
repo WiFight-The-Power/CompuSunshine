@@ -577,7 +577,7 @@ const products = [
   },
   {
     name: "EVGA - GP Series SuperNOVA 1000W ATX 80 Plus Gold",
-    brand: "CORSAIR",
+    brand: "EVGA",
     category: "Power Supplies",
     price: 16999,
     quantity: 45,
