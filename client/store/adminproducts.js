@@ -60,7 +60,7 @@ const _createProduct = (product) => {
 export const fetchAllProducts = () => {
   return async (dispatch) => {
     const { data: products } = await axios.get('/api/products');
-    // Convert game price from cents to dollars
+    console.log("This is to fetch", products)
     let editedProductsPrice = products.map((product) => {
       product.price = product.price/100;
       return product;

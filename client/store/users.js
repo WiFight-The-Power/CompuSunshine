@@ -18,7 +18,9 @@ export const fetchUsers = () => {
         const { data } = await axios.get(`/api/users/`, { headers: {
           authorization: token
         }})
+        console.log(data)
         const action = setUsers(data);
+        console.log(action)
         dispatch(action);
       }
     } catch (error) {
