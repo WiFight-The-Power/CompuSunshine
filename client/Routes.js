@@ -7,7 +7,7 @@ import { me } from "./store";
 import AllProducts from "./components/AllProducts";
 import SingleProduct from "./components/SingleProduct";
 import Cart from "./components/Cart";
-import Checkout from "./components/Checkout"
+import Checkout from "./components/Checkout";
 
 /**
  * COMPONENT
@@ -24,13 +24,9 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
-            <Route
-              exact
-              path="/products/:productId"
-              component={SingleProduct}
-            />
+            <Route exact path="/products/:productId" component={SingleProduct} />
             <Route exact path="/products" component={AllProducts} />
-            <Route path="/checkout" component={Checkout} />
+            <Route exact path="/checkout" component={Checkout} />
             <Route path="/cart" component={Cart} />
             <Route path="/home" component={Home} />
             <Redirect to="/home" />
@@ -38,12 +34,9 @@ class Routes extends Component {
           </Switch>
         ) : (
           <Switch>
-            <Route
-              exact
-              path="/products/:productId"
-              component={SingleProduct}
-            />
+            <Route exact path="/products/:productId" component={SingleProduct} />
             <Route exact path="/products" component={AllProducts} />
+            <Route exact path="/checkout" component={Checkout} />
             <Route path="/" exact component={Login} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
@@ -58,7 +51,7 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
+const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
@@ -66,7 +59,7 @@ const mapState = (state) => {
   };
 };
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me());
