@@ -50,14 +50,10 @@ class Routes extends Component {
               console.log("on null case")
             )}
             <Route exact path="/products" component={AllProducts} />
-<<<<<<< HEAD
             <Route path="/myAccount" component={MyAccount} />
             <Route path="/accountInfo" component={AccountInfo} />
             <Route path="/pastOrders" component={PastOrders} />
             <Route path="/checkout" component={Checkout} />
-=======
-            <Route exact path="/checkout" component={Checkout} />
->>>>>>> 3545b47f2a48a0dbe01df2e53aadea92a1ec3868
             <Route path="/cart" component={Cart} />
             <Route path="/home" component={Home} />
             <Redirect to="/home" />
