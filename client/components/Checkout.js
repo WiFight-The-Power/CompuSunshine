@@ -16,7 +16,7 @@ class Checkout extends React.Component {
       city: "",
       state: "",
       zipcode: "",
-      itemSubtotal: 0,
+      cart: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,7 +24,13 @@ class Checkout extends React.Component {
 
   componentDidMount() {
     const user = this.props.auth;
-    this.props.getOrder(user.id);
+
+    if (user.id) {
+      this.props.getOrder(user.id);
+      this.setState({ cart: this.props.cart.userCart });
+    } else {
+      this.setState({ cart: this.props.cart.guestCart });
+    }
 
     this.setState({
       first_name: user.first_name || "",
@@ -36,9 +42,6 @@ class Checkout extends React.Component {
       city: user.city || "",
       state: user.state || "",
       zipcode: user.zipcode || "",
-      itemSubtotal: this.props.cart.reduce(function (prev, curr) {
-        return prev + (curr.quantity * curr.price) / 100;
-      }, 0),
     });
   }
 
@@ -64,31 +67,45 @@ class Checkout extends React.Component {
       city,
       state,
       zipcode,
-      itemSubtotal,
+      cart,
     } = this.state;
+    const itemSubtotal = cart.reduce(function (prev, curr) {
+      return prev + (curr.quantity * curr.price) / 100;
+    }, 0);
     const taxRate = 0.09;
     const tax = (itemSubtotal * taxRate).toFixed(2);
 
     return (
       <div>
         <h2>Order Summary</h2>
-        <table>
-          <tr>
-            <th>Item Subtotal</th>
-            <th>${itemSubtotal}</th>
-          </tr>
-          <tr>
-            <th>Shipping</th>
-            <th>$0.00</th>
-          </tr>
-          <tr>
-            <th>Tax</th>
-            <th>${tax}</th>
-          </tr>
-          <tr>
-            <th>Total</th>
-            <th>${(Number(itemSubtotal) + Number(tax)).toFixed(2)}</th>
-          </tr>
+        {cart.map(product => (
+          <div key={product.id}>
+            <img className="product-thumbnail" src={product.imageUrl} />
+            <h4>{product.name}</h4>
+            <h5>Price Per Unit: ${product.price / 100}</h5>
+            <h5>Quantity: {product.quantity}</h5>
+            <h5>Sub-total: ${(product.price * product.quantity) / 100}</h5>
+          </div>
+        ))}
+        <table className="checkout">
+          <tbody>
+            <tr>
+              <th>Item Subtotal: </th>
+              <th>${itemSubtotal.toFixed(2)}</th>
+            </tr>
+            <tr>
+              <th>Shipping: </th>
+              <th>$0.00</th>
+            </tr>
+            <tr>
+              <th>Tax: </th>
+              <th>${tax}</th>
+            </tr>
+            <tr>
+              <th>Total: </th>
+              <th>${(Number(itemSubtotal) + Number(tax)).toFixed(2)}</th>
+            </tr>
+          </tbody>
         </table>
         <form id="checkout-form" onSubmit={this.handleSubmit}>
           <label htmlFor="first_name">
@@ -149,7 +166,7 @@ class Checkout extends React.Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    cart: state.cart.userCart,
+    cart: state.cart,
     order: state.order,
   };
 };

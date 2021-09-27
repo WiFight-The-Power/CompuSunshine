@@ -34,3 +34,13 @@ form div {
   width: 90%;
   height: 15rem;
 }
+
+.product-thumbnail {
+  width: 10rem;
+  height: 5rem;
+}
+
+.checkout {
+  font-size: 2rem;
+  text-align: left;
+}
