@@ -1,6 +1,6 @@
-import axios from 'axios'
+import axios from "axios";
 
-const TOKEN = 'token';
+const TOKEN = "token";
 
 const initialState = {
   allProducts: [],
@@ -10,11 +10,11 @@ const initialState = {
 /**
  * ACTION TYPES
  */
-const SET_ALL_PRODUCTS = 'SET_ALL_PRODUCTS';
-const SET_SINGLE_PRODUCT = 'SET_SINGLE_PRODUCT';
-const UPDATE_SINGLE_PRODUCT = 'UPDATE_SINGLE_PRODUCT';
-const DELETE_PRODUCT = 'DELETE_PRODUCT';
-const CREATE_PRODUCT = 'CREATE_PRODUCT';
+const SET_ALL_PRODUCTS = "SET_ALL_PRODUCTS";
+const SET_SINGLE_PRODUCT = "SET_SINGLE_PRODUCT";
+const UPDATE_SINGLE_PRODUCT = "UPDATE_SINGLE_PRODUCT";
+const DELETE_PRODUCT = "DELETE_PRODUCT";
+const CREATE_PRODUCT = "CREATE_PRODUCT";
 
 /**
  * ACTION CREATORS
@@ -22,70 +22,70 @@ const CREATE_PRODUCT = 'CREATE_PRODUCT';
 const setAllProducts = (products) => {
   return {
     type: SET_ALL_PRODUCTS,
-    products
+    products,
   };
 };
 
 export const setSingleProduct = (product) => {
   return {
     type: SET_SINGLE_PRODUCT,
-    product
-  }
-}
+    product,
+  };
+};
 
 const updateSingleProduct = (product) => {
   return {
     type: UPDATE_SINGLE_PRODUCT,
-    product
-  }
-}
+    product,
+  };
+};
 
 const _deleteProduct = (product) => {
   return {
     type: DELETE_PRODUCT,
-    product
-  }
-}
+    product,
+  };
+};
 
 const _createProduct = (product) => {
   return {
     type: CREATE_PRODUCT,
-    product
-  }
-}
+    product,
+  };
+};
 
 /**
  * THUNK CREATORS
  */
 export const fetchAllProducts = () => {
   return async (dispatch) => {
-    const { data: products } = await axios.get('/api/products');
-    console.log("This is to fetch", products)
-    let editedProductsPrice = products.map((product) => {
-      product.price = product.price/100;
-      return product;
-    });
-    const action = setAllProducts(editedProductsPrice);
-    dispatch(action);
-  }
-}
+    try {
+      const { data: products } = await axios.get("/api/products");
+      console.log("hey", products);
+      dispatch(setAllProducts(products));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
 
 export const fetchSingleProduct = (productId) => {
   return async (dispatch) => {
     const { data: product } = await axios.get(`/api/products/${productId}`);
+    console.log(product, "Store level");
     const action = setSingleProduct(product);
     dispatch(action);
-  }
-}
+  };
+};
 
 export const createProduct = (product, history) => {
   return async (dispatch) => {
     try {
       const token = window.localStorage.getItem(TOKEN);
-      const{ data } = await axios.post('/api/products', product, {
+      const { data } = await axios.post("/api/products", product, {
         headers: {
-          authorization: token
-        }
+          authorization: token,
+        },
       });
       const action = _createProduct(data);
       dispatch(action);
@@ -93,8 +93,8 @@ export const createProduct = (product, history) => {
     } catch (error) {
       console.error(error);
     }
-  }
-}
+  };
+};
 
 export const updateProduct = (productId, product, history) => {
   return async (dispatch) => {
@@ -102,33 +102,35 @@ export const updateProduct = (productId, product, history) => {
       const token = window.localStorage.getItem(TOKEN);
       const { data } = await axios.put(`/api/products/${productId}`, product, {
         headers: {
-          authorization: token
-        }
+          authorization: token,
+        },
       });
       const action = updateSingleProduct(data);
       dispatch(action);
-      history.push(`/admin/editProducts`)
+      history.push(`/admin/editProducts`);
     } catch (error) {
       console.error(error);
     }
-  }
-}
+  };
+};
 
 export const deleteProduct = (productId, history) => {
   return async (dispatch) => {
     try {
       const token = window.localStorage.getItem(TOKEN);
-      const { data } = await axios.delete(`/api/products/${productId}`, {headers: {
-        authorization: token
-      }});
+      const { data } = await axios.delete(`/api/products/${productId}`, {
+        headers: {
+          authorization: token,
+        },
+      });
       const action = _deleteProduct(data);
       dispatch(action);
       history.push(`/admin/editProducts`);
     } catch (error) {
       console.error(error);
     }
-  }
-}
+  };
+};
 /**
  * REDUCER
  */
@@ -139,13 +141,16 @@ export default function adminProductsReducer(state = initialState, action) {
     case SET_SINGLE_PRODUCT:
       return { ...state, singleProduct: action.product };
     case CREATE_PRODUCT:
-      return {...state, allProducts: [...state.allProducts, action.product]}
+      return { ...state, allProducts: [...state.allProducts, action.product] };
     case UPDATE_SINGLE_PRODUCT:
-      return {...state, singleProduct: action.product};
+      return { ...state, singleProduct: action.product };
     case DELETE_PRODUCT:
-      return {...state, allProducts: state.allProducts.filter((product) =>
-        product.id !== action.product.id
-      )}
+      return {
+        ...state,
+        allProducts: state.allProducts.filter(
+          (product) => product.id !== action.product.id
+        ),
+      };
     default:
       return state;
   }
