@@ -47,7 +47,7 @@ class Routes extends Component {
                 <Route
                   exact
                   path="/admin/editProducts/:productId"
-                  component={EditProduct2}
+                  component={EditProduct}
                 />
                 <Route
                   exact
@@ -67,7 +67,7 @@ class Routes extends Component {
             <Route path="/checkout" component={Checkout} />
             <Route path="/cart" component={Cart} />
             <Route path="/home" component={Home} />
-            <Redirect to="/home" />
+            {/* <Redirect to="/home" /> */}
             {/* <Route path="/cart" component={UserCart} /> */}
           </Switch>
         ) : (

@@ -42,8 +42,7 @@ router.put("/:cartItem", async (req, res, next) => {
       await cartItem.update({ quantity: prevQuantity + 1 });
     }
     if (operation === "subtract") {
-      (await prevQuantity) > 1 &&
-        cartItem.update({ quantity: prevQuantity - 1 });
+      (await prevQuantity) > 1 && cartItem.update({ quantity: prevQuantity - 1 });
     }
     if (operation === "remove") {
       await cartItem.destroy();
@@ -61,7 +60,7 @@ router.post("/", async (req, res, next) => {
     const { productId, loggedInUser, price, productObj } = req.body;
 
     const [order, createdOrder] = await Order.findOrCreate({
-      where: { userId: loggedInUser },
+      where: { userId: loggedInUser, status: "pending" },
       defaults: {
         status: "pending",
       },
