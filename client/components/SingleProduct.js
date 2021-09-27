@@ -38,24 +38,27 @@ export class SingleProduct extends React.Component {
         <h5>{product.brand}</h5>
         <h5>{product.category}</h5>
         <p>{product.description}</p>
-
-        <button onClick={this.handleClick}>Add to Cart</button>
+        {product.quantity ? (
+          <button onClick={this.handleClick}>Add to Cart</button>
+        ) : (
+          "Out of Stock!"
+        )}
       </div>
     );
   }
 }
 
-const mapState = (state) => ({
+const mapState = state => ({
   product: state.product,
   isLoggedIn: !!state.auth.id,
   loggedInUser: state.auth.id,
 });
 
-const mapDispatch = (dispatch) => ({
-  getProduct: (id) => dispatch(fetchProduct(id)),
+const mapDispatch = dispatch => ({
+  getProduct: id => dispatch(fetchProduct(id)),
   add_UserProduct: (id, loggedInUser, price, productObj) =>
     dispatch(addToUserCart(id, loggedInUser, price, productObj)),
-  add_GuestProduct: (product) => dispatch(addToGuestCart(product)),
+  add_GuestProduct: product => dispatch(addToGuestCart(product)),
 });
 
 export default connect(mapState, mapDispatch)(SingleProduct);
