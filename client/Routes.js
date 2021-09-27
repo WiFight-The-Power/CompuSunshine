@@ -33,32 +33,16 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
-            <Route
-              exact
-              path="/products/:productId"
-              component={SingleProduct}
-            />
+            <Route exact path="/products/:productId" component={SingleProduct} />
             {isAdmin ? (
               <Switch>
                 <Route exact path="/admin" component={Admin} />
-                <Route
-                  exact
-                  path="/admin/editProducts"
-                  component={AdminProducts}
-                />
-                <Route
-                  exact
-                  path="/admin/editProducts/:productId"
-                  component={EditProduct}
-                />
-                <Route
-                  exact
-                  path="/admin/createProduct"
-                  component={CreateProduct}
-                />
+                <Route exact path="/admin/editProducts" component={AdminProducts} />
+                <Route exact path="/admin/editProducts/:productId" component={EditProduct} />
+                <Route exact path="/admin/createProduct" component={CreateProduct} />
                 <Route exact path="/admin/users" component={AdminUsers} />
                 <Route exact path="/products" component={AllProducts} />
-                <Route path="/checkout" component={Checkout} />
+                <Route exact path="/checkout" component={Checkout} />
                 <Route path="/cart" component={Cart} />
                 <Route path="/home" component={Home} />
               </Switch>
@@ -66,10 +50,14 @@ class Routes extends Component {
               console.log("on null case")
             )}
             <Route exact path="/products" component={AllProducts} />
+<<<<<<< HEAD
             <Route path="/myAccount" component={MyAccount} />
             <Route path="/accountInfo" component={AccountInfo} />
             <Route path="/pastOrders" component={PastOrders} />
             <Route path="/checkout" component={Checkout} />
+=======
+            <Route exact path="/checkout" component={Checkout} />
+>>>>>>> 3545b47f2a48a0dbe01df2e53aadea92a1ec3868
             <Route path="/cart" component={Cart} />
             <Route path="/home" component={Home} />
             <Redirect to="/home" />
@@ -77,12 +65,9 @@ class Routes extends Component {
           </Switch>
         ) : (
           <Switch>
-            <Route
-              exact
-              path="/products/:productId"
-              component={SingleProduct}
-            />
+            <Route exact path="/products/:productId" component={SingleProduct} />
             <Route exact path="/products" component={AllProducts} />
+            <Route exact path="/checkout" component={Checkout} />
             <Route path="/" exact component={Login} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
@@ -97,7 +82,7 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
+const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
@@ -106,7 +91,7 @@ const mapState = (state) => {
   };
 };
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me());
