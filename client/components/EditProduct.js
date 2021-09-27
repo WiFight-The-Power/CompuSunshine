@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { connect } from "react-redux";
 import { fetchSingleProduct, updateProduct } from "../store/adminproducts";
 
-function EditProduct2({ getSingleProduct, product, updateProduct }) {
+function EditProduct({ getSingleProduct, product, updateProduct }) {
   const { productId } = useParams();
   const [formData, setFormData] = useState(product);
 
@@ -106,4 +106,4 @@ const mapDispatchToProps = (dispatch, { history }) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditProduct2);
+export default connect(mapStateToProps, mapDispatchToProps)(EditProduct);

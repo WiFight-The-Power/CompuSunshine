@@ -11,7 +11,7 @@ import Admin from "./components/Admin";
 import AdminProducts from "./components/AdminProducts";
 import AdminUsers from "./components/AdminUsers";
 import CreateProduct from "./components/CreateProduct";
-import EditProduct2 from "./components/EditProduct2";
+import EditProduct from "./components/EditProduct";
 
 import Checkout from "./components/Checkout";
 
@@ -46,7 +46,7 @@ class Routes extends Component {
                 <Route
                   exact
                   path="/admin/editProducts/:productId"
-                  component={EditProduct2}
+                  component={EditProduct}
                 />
                 <Route
                   exact
