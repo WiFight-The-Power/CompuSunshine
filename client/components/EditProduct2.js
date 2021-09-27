@@ -71,6 +71,13 @@ function EditProduct2({ getSingleProduct, product, updateProduct }) {
           value={formData.imageUrl}
           onChange={handleChange}
         ></input>
+
+        <label htmlFor="imageUrl">Quantity </label>
+        <input
+          name="quantity"
+          value={formData.quantity}
+          onChange={handleChange}
+        ></input>
       </div>
 
       <button type="submit">Edit</button>

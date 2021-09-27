@@ -11,7 +11,6 @@ import Admin from "./components/Admin";
 import AdminProducts from "./components/AdminProducts";
 import AdminUsers from "./components/AdminUsers";
 import CreateProduct from "./components/CreateProduct";
-import EditProduct from "./components/EditProduct";
 import EditProduct2 from "./components/EditProduct2";
 
 import Checkout from "./components/Checkout";
