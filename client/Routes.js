@@ -7,11 +7,7 @@ import { me } from "./store";
 import AllProducts from "./components/AllProducts";
 import SingleProduct from "./components/SingleProduct";
 import Cart from "./components/Cart";
-import Admin from "./components/Admin";
-import AdminProducts from "./components/AdminProducts"
-import AdminUsers from "./components/AdminUsers";
-import CreateProduct from "./components/CreateProduct";
-import EditProduct from "./components/EditProduct";
+
 
 /**
  * COMPONENT
@@ -43,6 +39,7 @@ class Routes extends Component {
               </Switch> ) : null 
             }
             <Route exact path="/products" component={AllProducts} />
+            <Route path="/checkout" component={Checkout} />
             <Route path="/cart" component={Cart} />
             <Route path="/home" component={Home} />
             <Redirect to="/home" />
