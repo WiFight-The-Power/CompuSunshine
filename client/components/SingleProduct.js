@@ -17,10 +17,11 @@ export class SingleProduct extends React.Component {
 
   handleClick() {
     const { product } = this.props;
+    const num = Math.round(product.price);
 
     if (this.props.isLoggedIn) {
       let userId = this.props.loggedInUser;
-      this.props.add_UserProduct(product.id, userId, product.price, this.props.product);
+      this.props.add_UserProduct(product.id, userId, num, this.props.product);
     } else {
       this.props.add_GuestProduct(product);
     }
@@ -37,23 +38,24 @@ export class SingleProduct extends React.Component {
         <h5>{product.brand}</h5>
         <h5>{product.category}</h5>
         <p>{product.description}</p>
-        {product.quantity ? <button onClick={this.handleClick}>Add to Cart</button> : "SOLD OUT!"}
+
+        <button onClick={this.handleClick}>Add to Cart</button>
       </div>
     );
   }
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   product: state.product,
   isLoggedIn: !!state.auth.id,
   loggedInUser: state.auth.id,
 });
 
-const mapDispatch = dispatch => ({
-  getProduct: id => dispatch(fetchProduct(id)),
+const mapDispatch = (dispatch) => ({
+  getProduct: (id) => dispatch(fetchProduct(id)),
   add_UserProduct: (id, loggedInUser, price, productObj) =>
     dispatch(addToUserCart(id, loggedInUser, price, productObj)),
-  add_GuestProduct: product => dispatch(addToGuestCart(product)),
+  add_GuestProduct: (product) => dispatch(addToGuestCart(product)),
 });
 
 export default connect(mapState, mapDispatch)(SingleProduct);
