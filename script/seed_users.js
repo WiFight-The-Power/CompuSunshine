@@ -6,6 +6,7 @@ function userGenerator(num) {
   for (let i = 0; i < num; i++) {
     const username = faker.internet.userName();
     const password = faker.internet.password();
+    // const isAdmin = faker.internet.isAdmin();
 
     users.push({
       username,
@@ -24,6 +25,7 @@ function userGenerator(num) {
 
     console.log("username:", username);
     console.log("password:", password);
+    // console.log("isAdmin:", isAdmin);
   }
 
   return users;
@@ -32,3 +34,9 @@ function userGenerator(num) {
 const users = userGenerator(250);
 
 module.exports = users;
+
+//  Elise.Schimmel
+// HRpZKwuUCzrCmgN
+
+// Savanna.Ferry
+// Dmpc_QyvORVCJyS

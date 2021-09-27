@@ -9,10 +9,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
     <nav>
       {isLoggedIn ? (
         <div>
-          {isAdmin ?
-            <Link to= "/admin"> Admin
-            </Link> : null
-          }
+          {isAdmin ? <Link to="/admin"> Admin</Link> : null}
           {/* The navbar will show these links after you log in */}
           <Link to="/home">Home</Link>
           <Link to="/products">Products</Link>
@@ -41,7 +38,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,
-    isAdmin: !!state.auth.isAdmin
+    isAdmin: !!state.auth.isAdmin,
   };
 };
 
@@ -54,5 +51,3 @@ const mapDispatch = (dispatch) => {
 };
 
 export default connect(mapState, mapDispatch)(Navbar);
-
-

@@ -7,7 +7,14 @@ import { me } from "./store";
 import AllProducts from "./components/AllProducts";
 import SingleProduct from "./components/SingleProduct";
 import Cart from "./components/Cart";
+import Admin from "./components/Admin";
+import AdminProducts from "./components/AdminProducts";
+import AdminUsers from "./components/AdminUsers";
+import CreateProduct from "./components/CreateProduct";
+import EditProduct from "./components/EditProduct";
+import EditProduct2 from "./components/EditProduct2";
 
+import Checkout from "./components/Checkout";
 
 /**
  * COMPONENT
@@ -31,13 +38,31 @@ class Routes extends Component {
             />
             {isAdmin ? (
               <Switch>
-                <Route exact path ="/admin" component={Admin} />
-                <Route exact path ="/editProducts" component={AdminProducts} />
-                <Route exact path ="/admin/editProducts/:productId" component={EditProduct} />
-                <Route exact path ="/admin/createProduct" component={CreateProduct} />
-                <Route exact path ="/admin/users" component={AdminUsers} />
-              </Switch> ) : null 
-            }
+                <Route exact path="/admin" component={Admin} />
+                <Route
+                  exact
+                  path="/admin/editProducts"
+                  component={AdminProducts}
+                />
+                <Route
+                  exact
+                  path="/admin/editProducts/:productId"
+                  component={EditProduct2}
+                />
+                <Route
+                  exact
+                  path="/admin/createProduct"
+                  component={CreateProduct}
+                />
+                <Route exact path="/admin/users" component={AdminUsers} />
+                <Route exact path="/products" component={AllProducts} />
+                <Route path="/checkout" component={Checkout} />
+                <Route path="/cart" component={Cart} />
+                <Route path="/home" component={Home} />
+              </Switch>
+            ) : (
+              console.log("on null case")
+            )}
             <Route exact path="/products" component={AllProducts} />
             <Route path="/checkout" component={Checkout} />
             <Route path="/cart" component={Cart} />
@@ -72,7 +97,7 @@ const mapState = (state) => {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
     isLoggedIn: !!state.auth.id,
-    isAdmin: !!state.auth.isAdmin
+    isAdmin: !!state.auth.isAdmin,
   };
 };
 
