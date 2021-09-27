@@ -1,114 +1,93 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import { connect } from "react-redux";
+import { fetchSingleProduct, updateProduct } from "../store/adminproducts";
 
-import {
-  fetchAllProducts,
-  fetchSingleProduct,
-  setSingleProduct,
-  updateProduct,
-} from "../store/adminproducts";
+function EditProduct({ getSingleProduct, product, updateProduct }) {
+  const { productId } = useParams();
+  const [formData, setFormData] = useState(product);
 
-class EditProduct extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      brand: "",
-      category: "",
-      price: 0,
-      imageUrl: "",
-      description: "",
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    const productId = this.props.match.params.productId;
-    this.props.getSingleProduct(productId);
-    console.log("yurrrpppp", this.state);
-  }
-
-  componentWillUnmount() {
-    this.props.clearProduct();
-  }
-
-  componentDidUpdate(prevProps) {
-    console.log(prevProps);
-    if (prevProps.product.name !== this.props.product.name) {
-      this.setState({
-        name: this.props.product.name,
-        brand: this.props.product.brand,
-        category: this.props.product.category,
-        price: this.props.product.price,
-        imageUrl: this.props.product.imageUrl,
-        description: this.props.product.description,
-      });
-    }
-  }
-
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    this.props.updateProduct(this.props.match.params.productId, {
-      ...this.state,
-    });
-  }
+    try {
+      updateProduct(productId, formData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  render() {
-    return (
-      <form id="edit-product" onSubmit={this.handleSubmit}>
-        <div>
-          <label htmlFor="name">Product Name: </label>
-          <input
-            name="name"
-            value={this.state.name}
-            onChange={this.handleChange}
-          ></input>
+  const handleChange = ({ target }) => {
+    setFormData({ ...formData, [target.name]: target.value });
+    console.log(formData);
+  };
 
-          <label htmlFor="brand">Brand: </label>
-          <input
-            name="brand"
-            value={this.state.brand}
-            onChange={this.handleChange}
-          ></input>
+  useEffect(() => {
+    try {
+      setFormData(product);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [product]);
 
-          <label htmlFor="category">Category: </label>
-          <input
-            name="category"
-            value={this.state.category}
-            onChange={this.handleChange}
-          ></input>
+  useEffect(() => {
+    getSingleProduct(productId);
+  }, []);
 
-          <label htmlFor="price">Price (in cents): </label>
-          <input
-            name="price"
-            value={this.state.price}
-            onChange={this.handleChange}
-          ></input>
+  return (
+    // <div>{console.log(formData, "me", state)}</div>
+    <form id="edit-product" onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="name">Product Name: </label>
+        <input
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+        ></input>
 
-          <label htmlFor="imageUrl">Image </label>
-          <input
-            name="imageUrl"
-            value={this.state.imageUrl}
-            onChange={this.handleChange}
-          ></input>
-        </div>
+        <label htmlFor="brand">Brand: </label>
+        <input
+          name="brand"
+          value={formData.brand}
+          onChange={handleChange}
+        ></input>
 
-        <button type="submit">Edit</button>
-      </form>
-    );
-  }
+        <label htmlFor="category">Category: </label>
+        <input
+          name="category"
+          value={formData.category}
+          onChange={handleChange}
+        ></input>
+
+        <label htmlFor="price">Price (in cents): </label>
+        <input
+          name="price"
+          value={formData.price}
+          onChange={handleChange}
+        ></input>
+
+        <label htmlFor="imageUrl">Image </label>
+        <input
+          name="imageUrl"
+          value={formData.imageUrl}
+          onChange={handleChange}
+        ></input>
+
+        <label htmlFor="imageUrl">Quantity </label>
+        <input
+          name="quantity"
+          value={formData.quantity}
+          onChange={handleChange}
+        ></input>
+      </div>
+
+      <button type="submit">Edit</button>
+    </form>
+  );
 }
 
 const mapStateToProps = (state) => {
   return {
-    product: state.products.singleProduct,
+    product: state.adminproducts.singleProduct,
     allProducts: state.products.allProducts,
     // singleProduct: state.singleProduct,
     state: state,
