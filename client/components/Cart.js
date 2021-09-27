@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CartRow from "./utils/CartRow";
 import { connect } from "react-redux";
 import { fetchCart, fetch_GuestCart } from "../store/cart";
+import {Link} from "react-router-dom";
 
 function Cart({ cart, isLoggedIn, loggedInUser, getCart, guestCart, getGuestCart, state }) {
   console.log(loggedInUser, "what we need ");
@@ -74,6 +75,7 @@ function Cart({ cart, isLoggedIn, loggedInUser, getCart, guestCart, getGuestCart
 
         <tbody>{rowView}</tbody>
       </table>
+      <Link to="/checkout"><button>Checkout</button></Link>
     </div>
   );
 }

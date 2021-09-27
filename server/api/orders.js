@@ -14,11 +14,21 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-router.get("/:orderId", async (req, res, next) => {
+router.get("/:userId", async (req, res, next) => {
     try {
-        const order = await Order.findByPk(req.params.orderId, {include: OrderItem});
+        const order = await Order.findOne({where: {userId: req.params.userId}, include: [{model: OrderItem}]});
         res.status(200).json(order);
     } catch(error) {
         next(error);
     }
 });
+
+router.put("/:orderId", async (req, res, next) => {
+    try {
+        const order = await Order.findByPk(req.params.orderId, {include: OrderItem});
+        await order.update(req.body);
+        res.status(200).json(order);
+    } catch (error) {
+        next(error);
+    }
+})
