@@ -59,6 +59,22 @@ router.put("/:productId", requireToken, isAdmin, async (req, res, next) => {
   }
 });
 
+router.put("/updatecount/:productId", async (req, res, next) => {
+  try {
+    const { cartItemAmount } = req.body;
+
+    const productToUpdate = await Product.findByPk(req.params.productId);
+    const oldAmount = productToUpdate.quantity;
+
+    const updateProduct = await productToUpdate.update({
+      quantity: oldAmount - cartItemAmount,
+    });
+    res.send(updateProduct);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.delete("/:productId", requireToken, isAdmin, async (req, res, next) => {
   try {
     const productToDelete = await Product.findByPk(req.params.productId);

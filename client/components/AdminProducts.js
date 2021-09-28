@@ -12,12 +12,13 @@ class AdminProducts extends React.Component {
   render() {
     // *Important: Sort products first to keep from reshifting after a change!
     this.props.products.sort((itemA, itemB) => itemA.id - itemB.id);
-    console.log(this.props.state);
+
     return (
       <div>
         {this.props.products.map((product) => {
           return (
             <div key={product.id}>
+              <img style={{ maxWidth: "50px" }} src={product.imageUrl} />
               <Link to={`/admin/editProducts/${product.id}`}>
                 {product.name}
               </Link>
