@@ -9,6 +9,7 @@ import cartReducer from "./cart";
 import adminProductsReducer from "./adminproducts";
 import usersReducer from "./users";
 import orderReducer from "./order";
+import ordersReducer from "./orders";
 
 const reducer = combineReducers({
   auth,
@@ -17,10 +18,11 @@ const reducer = combineReducers({
   cart: cartReducer,
   adminproducts: adminProductsReducer,
   users: usersReducer,
-  order: orderReducer
+  order: orderReducer,
+  orders: ordersReducer,
 });
 const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
+  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true })),
 );
 const store = createStore(reducer, middleware);
 
