@@ -4,6 +4,9 @@ import { fetchProduct } from "../store/product";
 import { setProduct } from "../store/product";
 import { Link } from "react-router-dom";
 import { addToGuestCart, addToUserCart } from "../store/cart";
+import { ToastContainer, toast } from "react-toastify";
+import { injectStyle } from "react-toastify/dist/inject-style";
+
 
 export class SingleProduct extends React.Component {
   constructor() {
@@ -17,11 +20,21 @@ export class SingleProduct extends React.Component {
 
   handleClick() {
     const { product } = this.props;
-    const num = Math.round(product.price);
+
+    injectStyle();
+
+    toast("Added to cart!", {
+        closeOnClick: true,
+        toastId: "my_toast",
+        autoClose: true,
+        closeButton: true,
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+    
 
     if (this.props.isLoggedIn) {
       let userId = this.props.loggedInUser;
-      this.props.add_UserProduct(product.id, userId, num, this.props.product);
+      this.props.add_UserProduct(product.id, userId, product.price, this.props.product);
     } else {
       this.props.add_GuestProduct(product);
     }
@@ -43,6 +56,7 @@ export class SingleProduct extends React.Component {
         ) : (
           "Out of Stock!"
         )}
+        <ToastContainer />
       </div>
     );
   }
