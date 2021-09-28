@@ -6,7 +6,7 @@ function userGenerator(num) {
   for (let i = 0; i < num; i++) {
     const username = faker.internet.userName();
     const password = faker.internet.password();
-    // const isAdmin = faker.internet.isAdmin();
+    const isAdmin = faker.datatype.boolean();
 
     users.push({
       username,
@@ -20,12 +20,12 @@ function userGenerator(num) {
       city: faker.address.cityName(),
       state: faker.address.stateAbbr(),
       zipcode: faker.address.zipCode(),
-      isAdmin: faker.datatype.boolean(),
+      isAdmin,
     });
 
     console.log("username:", username);
     console.log("password:", password);
-    // console.log("isAdmin:", isAdmin);
+    console.log("isAdmin:", isAdmin);
   }
 
   return users;
@@ -34,9 +34,3 @@ function userGenerator(num) {
 const users = userGenerator(250);
 
 module.exports = users;
-
-//  Elise.Schimmel
-// HRpZKwuUCzrCmgN
-
-// Savanna.Ferry
-// Dmpc_QyvORVCJyS
