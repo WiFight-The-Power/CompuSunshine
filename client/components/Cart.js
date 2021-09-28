@@ -6,6 +6,7 @@ import {
   fetchCart,
   fetch_GuestCart,
   addToUserCartFromGuest,
+  remove_GuestCart,
 } from "../store/cart";
 
 function Cart({
@@ -16,6 +17,7 @@ function Cart({
   guestCart,
   getGuestCart,
   addToUserCart,
+  removeGuestCart,
   state,
 }) {
   console.log(loggedInUser, "what we need ");
@@ -39,6 +41,7 @@ function Cart({
     } catch (error) {
       console.log(error);
     }
+    removeGuestCart();
   }, [loggedInUser]);
 
   if (isLoggedIn) {
@@ -120,6 +123,7 @@ const mapDispatch = (dispatch) => ({
   getGuestCart: () => dispatch(fetch_GuestCart()),
   addToUserCart: (id, loggedInUser, price, productObj) =>
     dispatch(addToUserCartFromGuest(id, loggedInUser, price, productObj)),
+  removeGuestCart: () => dispatch(remove_GuestCart()),
 });
 
 export default connect(mapState, mapDispatch)(Cart);

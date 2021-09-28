@@ -9,6 +9,7 @@ const LOAD_GUEST_CART = "LOAD_GUEST_CART";
 const ADD_INVENTORY_CONFLICT = "ADD_INVENTORY_CONFLICT";
 const CAN_SUBMIT = "CAN_SUBMIT";
 const RESET_CART_CONFLICTS = "RESET_CART_CONFLICTS";
+const REMOVE_GUEST_CART = "REMOVE_GUEST_CART";
 
 let initialState = {
   userCart: [],
@@ -48,6 +49,13 @@ export const _setCanSubmit = (boolean) => {
 export const _resetConflicts = () => {
   return {
     type: RESET_CART_CONFLICTS,
+    payload: [],
+  };
+};
+
+export const _removeGuestCart = () => {
+  return {
+    type: REMOVE_GUEST_CART,
     payload: [],
   };
 };
@@ -164,6 +172,14 @@ export const addToGuestCart =
     localStorage.setItem("cart", JSON.stringify(cartItems));
   };
 
+export const remove_GuestCart = () => {
+  return async (dispatch) => {
+    console.log("workindajflkadjsf lakjds");
+    localStorage.removeItem("cart");
+    dispatch(_removeGuestCart());
+  };
+};
+
 export const fetch_GuestCart = () => {
   return async (dispatch) => {
     try {
@@ -271,6 +287,11 @@ export default function cartReducer(state = initialState, action) {
       return {
         ...state,
         cartConflicts: action.payload,
+      };
+    case REMOVE_GUEST_CART:
+      return {
+        ...state,
+        guestCart: action.payload,
       };
     default:
       return state;
