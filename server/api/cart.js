@@ -55,8 +55,43 @@ router.put("/:cartItem", async (req, res, next) => {
   }
 });
 
-// Path is /api/products/:orderInfo (POST)
 router.post("/", async (req, res, next) => {
+  try {
+    const { productId, loggedInUser, price, productObj } = req.body;
+
+    const [order, createdOrder] = await Order.findOrCreate({
+      where: { userId: loggedInUser, status: "pending" },
+      defaults: {
+        status: "pending",
+      },
+    });
+
+    const [orderItem, createdOrderItem] = await OrderItem.findOrCreate({
+      where: { orderId: order.id, productId, status: "pending" },
+      defaults: {
+        status: "pending",
+        price,
+        productId,
+        imageUrl: productObj.imageUrl,
+        orderId: order.id,
+        quantity: 1,
+        addedFromGuestCart: false,
+      },
+    });
+
+    const prevQuantity = orderItem.quantity;
+    !createdOrderItem && orderItem.update({ quantity: prevQuantity + 1 });
+
+    const product = await Product.findByPk(productId);
+
+    res.status(200).json(product);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Path is /api/products/:orderInfo (POST)
+router.post("/addFromGuestUserCart", async (req, res, next) => {
   try {
     const { productId, loggedInUser, price, productObj } = req.body;
 
@@ -75,23 +110,35 @@ router.post("/", async (req, res, next) => {
     // });    (Apollos Need this for testing purposes) This will be useful when a customer has submited their entire order, they will need a whole new cart/order to purchase new things!
 
     const [orderItem, createdOrderItem] = await OrderItem.findOrCreate({
-      where: { orderId: order.id, productId, status: "pending" },
+      where: {
+        orderId: order.id,
+        productId,
+        status: "pending",
+      },
       defaults: {
         status: "pending",
         price,
         productId,
         imageUrl: productObj.imageUrl,
         orderId: order.id,
-        quantity: 1,
+        quantity: productObj.quantity,
+        addedFromGuestCart: false,
       },
     });
 
-    const prevQuantity = orderItem.quantity;
-    !createdOrderItem && orderItem.update({ quantity: prevQuantity + 1 });
+    let resposne;
+    if (createdOrderItem) {
+      resposne = await orderItem.update({ quantity: productObj.quantity });
+    } else {
+      if (!orderItem.addedFromGuestCart) {
+        resposne = await orderItem.update({ quantity: productObj.quantity });
+      }
+    }
 
-    const product = await Product.findByPk(productId);
+    await orderItem.update({ addedFromGuestCart: true });
+    // const product = await Product.findByPk(resposne);
 
-    res.status(200).json(product);
+    res.status(200).json(orderItem);
   } catch (err) {
     next(err);
   }

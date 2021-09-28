@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import CartRow from "./utils/CartRow";
 import { connect } from "react-redux";
-import { fetchCart, fetch_GuestCart } from "../store/cart";
-import { Link } from "react-router-dom";
+import {
+  fetchCart,
+  fetch_GuestCart,
+  addToUserCartFromGuest,
+} from "../store/cart";
 
 function Cart({
   cart,
@@ -11,13 +15,26 @@ function Cart({
   getCart,
   guestCart,
   getGuestCart,
+  addToUserCart,
   state,
 }) {
+  console.log(loggedInUser, "what we need ");
   let rowView;
 
   useEffect(() => {
     try {
       getCart(loggedInUser);
+      loggedInUser &&
+        guestCart.map((item) =>
+          addToUserCart(item.id, loggedInUser, item.price, item)
+        );
+    } catch (error) {
+      console.log(error);
+    }
+  }, [loggedInUser, guestCart]);
+
+  useEffect(() => {
+    try {
       getGuestCart();
     } catch (error) {
       console.log(error);
@@ -25,27 +42,31 @@ function Cart({
   }, [loggedInUser]);
 
   if (isLoggedIn) {
-    if (!cart) {
-      rowView = <h1 style={{ textAlign: "center" }}>Cart is Empty, ya bum!</h1>;
-    } else {
-      /* Added sorted list to keep from element reshifting after rerender! */
-      let sortedCart = cart.sort((itemA, itemB) => itemA.id - itemB.id);
-      rowView = sortedCart.map((item) => (
-        <CartRow
-          key={item.id}
-          id={item.id}
-          name={item.name}
-          price={item.price}
-          imageUrl={item.imageUrl}
-          quantity={item.quantity}
-          loggedInUser={loggedInUser}
-          guestUser={false}
-        />
-      ));
-    }
+    cart && cart.length === 0
+      ? (rowView = (
+          <h1 style={{ textAlign: "center" }}>Cart is Empty, ya bum!</h1>
+        ))
+      : /* Added sorted list to keep from element reshifting after rerender! */
+
+        (rowView =
+          cart &&
+          cart
+            .sort((itemA, itemB) => itemA.id - itemB.id)
+            .map((item) => (
+              <CartRow
+                key={item.id}
+                id={item.id}
+                name={item.name}
+                price={item.price}
+                imageUrl={item.imageUrl}
+                quantity={item.quantity}
+                loggedInUser={loggedInUser}
+                guestUser={false}
+              />
+            )));
   } else {
     rowView =
-      guestCart === null ? (
+      guestCart.length === 0 ? (
         <h1 style={{ textAlign: "center" }}>Cart is Empty, ya bum!</h1>
       ) : (
         guestCart.map((item) => (
@@ -65,6 +86,7 @@ function Cart({
 
   return (
     <div>
+      {console.log(cart, "we on view")}
       <table style={{ width: "1200px", marginLeft: "60px" }}>
         <thead>
           <tr>
@@ -77,10 +99,10 @@ function Cart({
         </thead>
 
         <tbody>{rowView}</tbody>
+        <Link to="/checkout">
+          <button>Checkout</button>
+        </Link>
       </table>
-      <Link to="/checkout">
-        <button>Checkout</button>
-      </Link>
     </div>
   );
 }
@@ -96,6 +118,8 @@ const mapState = (state) => ({
 const mapDispatch = (dispatch) => ({
   getCart: (loggedInUser) => dispatch(fetchCart(loggedInUser)),
   getGuestCart: () => dispatch(fetch_GuestCart()),
+  addToUserCart: (id, loggedInUser, price, productObj) =>
+    dispatch(addToUserCartFromGuest(id, loggedInUser, price, productObj)),
 });
 
 export default connect(mapState, mapDispatch)(Cart);
