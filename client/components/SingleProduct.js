@@ -23,13 +23,7 @@ export class SingleProduct extends React.Component {
 
     injectStyle();
 
-    toast("Added to cart!", {
-        closeOnClick: true,
-        toastId: "my_toast",
-        autoClose: true,
-        closeButton: true,
-        position: toast.POSITION.BOTTOM_CENTER
-      });
+    toast("Added to cart!");
     
 
     if (this.props.isLoggedIn) {
