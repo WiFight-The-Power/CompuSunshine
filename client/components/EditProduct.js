@@ -34,9 +34,19 @@ function EditProduct({ getSingleProduct, product, updateProduct }) {
   }, []);
 
   return (
-    // <div>{console.log(formData, "me", state)}</div>
-    <form id="edit-product" onSubmit={handleSubmit}>
-      <div>
+    <form
+      style={{ width: "200", margin: "0 500px" }}
+      id="edit-product"
+      onSubmit={handleSubmit}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "200",
+          margin: "0 70px",
+        }}
+      >
         <label htmlFor="name">Product Name: </label>
         <input
           name="name"
@@ -89,7 +99,6 @@ const mapStateToProps = (state) => {
   return {
     product: state.adminproducts.singleProduct,
     allProducts: state.products.allProducts,
-    // singleProduct: state.singleProduct,
     state: state,
   };
 };
