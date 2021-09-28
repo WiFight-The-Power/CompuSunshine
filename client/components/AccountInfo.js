@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { updateUser } from "../store/user";
+import { me } from "../store/auth";
 
 class AccountInfo extends React.Component {
   constructor() {
@@ -42,9 +43,15 @@ class AccountInfo extends React.Component {
     });
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    this.props.toUpdateUser({ ...this.props.auth, ...this.state });
+  async handleSubmit(event) {
+    try {
+      await event.preventDefault();
+      await this.props.toUpdateUser({ ...this.props.auth, ...this.state });
+      await this.props.refreshUser();
+      await this.props.history.push("/myAccount");
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   render() {
@@ -117,6 +124,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, { history }) => ({
   toUpdateUser: user => dispatch(updateUser(user)),
+  refreshUser: () => dispatch(me()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountInfo);
