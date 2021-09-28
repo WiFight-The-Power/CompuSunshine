@@ -44,7 +44,7 @@ class AccountInfo extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.toUpdateUser(this.props.auth);
+    this.props.toUpdateUser({ ...this.props.auth, ...this.state });
   }
 
   render() {
