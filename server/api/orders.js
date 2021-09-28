@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {
-  models: { Order, OrderItem },
+  models: { Order, OrderItem, Product },
 } = require("../db");
 const { requireToken } = require("./middleware");
 module.exports = router;
@@ -39,7 +39,7 @@ router.get("/:userId/pastOrders", async (req, res, next) => {
         userId: req.params.userId,
         status: "fullfilled",
       },
-      include: [{ model: OrderItem }],
+      include: [{ model: OrderItem }, { model: Product }],
     });
     res.status(200).json(orders);
   } catch (error) {

@@ -31,7 +31,7 @@ form div {
 }
 
 .product-img {
-  width: 90%;
+  width: 100%;
   height: 15rem;
 }
 
@@ -43,4 +43,32 @@ form div {
 .checkout {
   font-size: 2rem;
   text-align: left;
+}
+
+.left {
+  text-align: left;
+  font-size: 1.5rem;
+}
+
+.right {
+  text-align: right;
+  font-size: 1.5rem;
+}
+
+.past-order {
+  background-color: lightblue;
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.past-order-items {
+  display: grid;
+  width: 70%;
+  grid-template-columns: repeat(3, 33%);
+  grid-auto-rows: 30rem;
+}
+
+.product {
+  padding: 1rem;
 }
