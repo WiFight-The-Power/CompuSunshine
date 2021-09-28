@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { updateUser } from "../store/user";
 
 class AccountInfo extends React.Component {
   constructor() {
@@ -43,7 +44,7 @@ class AccountInfo extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    //update user info
+    this.props.toUpdateUser(this.props.auth);
   }
 
   render() {
@@ -115,7 +116,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = (dispatch, { history }) => ({
-  //something
+  toUpdateUser: user => dispatch(updateUser(user)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountInfo);
