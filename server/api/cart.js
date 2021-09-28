@@ -42,7 +42,8 @@ router.put("/:cartItem", async (req, res, next) => {
       await cartItem.update({ quantity: prevQuantity + 1 });
     }
     if (operation === "subtract") {
-      (await prevQuantity) > 1 && cartItem.update({ quantity: prevQuantity - 1 });
+      prevQuantity > 1 &&
+        (await cartItem.update({ quantity: prevQuantity - 1 }));
     }
     if (operation === "remove") {
       await cartItem.destroy();

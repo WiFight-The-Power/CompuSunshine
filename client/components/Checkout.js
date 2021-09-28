@@ -1,227 +1,212 @@
-import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { checkInventory } from "../store/cart";
+import React, { useEffect, useState } from "react";
+import CheckoutItem from "./utils/CheckoutItem";
+import { updateProductCount } from "../store/products";
 import { updateOrder, fetchOrder } from "../store/order";
+import {
+  checkInventory,
+  resetCanSubmit,
+  resetCartConflicts,
+  fetchCart,
+  fetch_GuestCart,
+} from "../store/cart";
 
-class Checkout extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      first_name: "",
-      last_name: "",
-      email: "",
-      address_1: "",
-      address_2: "",
-      phone: "",
-      city: "",
-      state: "",
-      zipcode: "",
-      cart: [],
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+function Checkout({
+  auth,
+  history,
+  order,
+  reset_CartConflicts,
+  reset_CanSubmit,
+  cartInfo,
+  getOrder,
+  getCart,
+  toUpdateOrder,
+  check_Inventory,
+  canSubmit,
+  update_ProductCount,
+  getGuestCart,
+}) {
+  let cart = cartInfo ? (auth.id ? cartInfo.userCart : cartInfo.guestCart) : [];
+  const [formData, setFormData] = useState(auth);
 
-  componentDidMount() {
-    const user = this.props.auth;
+  useEffect(() => {
+    checkAvailabily();
+    reset_CartConflicts();
+    getCart(auth.id);
+    getGuestCart();
+    if (auth.id) getOrder(auth.id);
+  }, [auth]);
 
-    if (user.id) {
-      this.props.getOrder(user.id);
-      this.setState({ cart: this.props.cart.userCart });
-    } else {
-      this.setState({ cart: this.props.cart.guestCart });
-    }
+  useEffect(() => {
+    reset_CanSubmit();
+    checkAvailabily();
+  }, [cart]);
 
-    this.setState({
-      first_name: user.first_name || "",
-      last_name: user.last_name || "",
-      email: user.email || "",
-      address_1: user.address_1 || "",
-      address_2: user.address_2 || "",
-      phone: user.phone || "",
-      city: user.city || "",
-      state: user.state || "",
-      zipcode: user.zipcode || "",
-    });
-
-    for (let index = 0; index < this.props.cart.userCart.length; index++) {
-      const orderItem = this.props.cart.userCart[index];
-      this.props.check_Inventory(
-        orderItem.productId,
-        orderItem.quantity,
-        orderItem.id
-      );
-    }
-  }
-
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (this.props.canSubmit) {
-      console.log("Should Not WORK!!!");
-      console.log(this.props.canSubmit);
-      this.props.toUpdateOrder({ ...this.props.order, status: "fullfilled" });
-    } else {
-      console.log("You cant submit you Bum!!");
+    if (canSubmit) {
+      toUpdateOrder({ ...order, status: "fullfilled" });
+      for (let index = 0; index < cart.length; index++) {
+        const orderItem = cart[index];
+        const productId = auth.id ? orderItem.productId : orderItem.id;
+        update_ProductCount(productId, orderItem.quantity);
+      }
     }
-  }
+    checkAvailabily();
+    reset_CanSubmit();
+  };
 
-  render() {
-    const {
-      first_name,
-      last_name,
-      email,
-      address_1,
-      address_2,
-      phone,
-      city,
-      state,
-      zipcode,
-      cart,
-    } = this.state;
-    const itemSubtotal = cart.reduce(function (prev, curr) {
-      return prev + (curr.quantity * curr.price) / 100;
-    }, 0);
-    const taxRate = 0.09;
-    const tax = (itemSubtotal * taxRate).toFixed(2);
+  const checkAvailabily = () => {
+    if (cart.length > 0) {
+      for (let index = 0; index < cart.length; index++) {
+        const orderItem = cart[index];
+        const productId = auth.id ? orderItem.productId : orderItem.id;
+        check_Inventory(productId, orderItem.quantity, orderItem.id);
+      }
+    }
+  };
 
-    return (
-      <div>
-        <h2>Order Summary</h2>
-        {cart.map((product) => (
-          <div key={product.id}>
-            <img className="product-thumbnail" src={product.imageUrl} />
-            <h4>{product.name}</h4>
-            <h5>Price Per Unit: ${product.price / 100}</h5>
-            <h5>Quantity: {product.quantity}</h5>
-            <h5>Sub-total: ${(product.price * product.quantity) / 100}</h5>
-          </div>
-        ))}
-        <table className="checkout">
-          <tbody>
-            <tr>
-              <th>Item Subtotal: </th>
-              <th>${itemSubtotal.toFixed(2)}</th>
-            </tr>
-            <tr>
-              <th>Shipping: </th>
-              <th>$0.00</th>
-            </tr>
-            <tr>
-              <th>Tax: </th>
-              <th>${tax}</th>
-            </tr>
-            <tr>
-              <th>Total: </th>
-              <th>${(Number(itemSubtotal) + Number(tax)).toFixed(2)}</th>
-            </tr>
-          </tbody>
-        </table>
-        <form id="checkout-form" onSubmit={this.handleSubmit}>
-          <label htmlFor="first_name">
-            <h1>First Name:</h1>
-          </label>
-          <input
-            name="first_name"
-            onChange={this.handleChange}
-            value={first_name}
-          ></input>
+  const handleChange = ({ target }) => {
+    setFormData({ ...formData, [target.name]: target.value });
+  };
 
-          <label htmlFor="last_name">
-            <h1>Last Name:</h1>
-          </label>
-          <input
-            name="last_name"
-            onChange={this.handleChange}
-            value={last_name}
-          ></input>
+  const itemSubtotal = cart.reduce(function (prev, curr) {
+    return prev + (curr.quantity * curr.price) / 100;
+  }, 0);
+  const taxRate = 0.09;
+  const tax = (itemSubtotal * taxRate).toFixed(2);
 
-          <label htmlFor="email">
-            <h1>Email:</h1>
-          </label>
-          <input
-            name="email"
-            onChange={this.handleChange}
-            value={email}
-          ></input>
+  return (
+    <div style={{ width: "400px", margin: "0 80px" }}>
+      <h2>Order Summary</h2>
 
-          <label htmlFor="address_1">
-            <h1>Address Line 1:</h1>
-          </label>
-          <input
-            name="address_1"
-            onChange={this.handleChange}
-            value={address_1}
-          ></input>
+      {auth.id
+        ? cartInfo.userCart.map((product) => <CheckoutItem product={product} />)
+        : cartInfo.guestCart.map((product) => (
+            <CheckoutItem product={product} />
+          ))}
+      <table className="checkout">
+        <tbody>
+          <tr>
+            <th>Item Subtotal: </th>
+            <th>${itemSubtotal.toFixed(2)}</th>
+          </tr>
+          <tr>
+            <th>Shipping: </th>
+            <th>$0.00</th>
+          </tr>
+          <tr>
+            <th>Tax: </th>
+            <th>${tax}</th>
+          </tr>
+          <tr>
+            <th>Total: </th>
+            <th>${(Number(itemSubtotal) + Number(tax)).toFixed(2)}</th>
+          </tr>
+        </tbody>
+      </table>
+      <form
+        style={{ display: "flex", flexDirection: "column" }}
+        id="checkout-form"
+        onSubmit={handleSubmit}
+      >
+        <label htmlFor="first_name">
+          <h1>First Name:</h1>
+        </label>
+        <input
+          name="first_name"
+          onChange={handleChange}
+          value={formData.first_name}
+        ></input>
 
-          <label htmlFor="address_2">
-            <h1>Address Line 2:</h1>
-          </label>
-          <input
-            name="address_2"
-            onChange={this.handleChange}
-            value={address_2}
-          ></input>
+        <label htmlFor="last_name">
+          <h1>Last Name:</h1>
+        </label>
+        <input
+          name="last_name"
+          onChange={handleChange}
+          value={formData.last_name}
+        ></input>
 
-          <label htmlFor="city">
-            <h1>City:</h1>
-          </label>
-          <input name="city" onChange={this.handleChange} value={city}></input>
+        <label htmlFor="email">
+          <h1>Email:</h1>
+        </label>
+        <input
+          name="email"
+          onChange={handleChange}
+          value={formData.email}
+        ></input>
 
-          <label htmlFor="state">
-            <h1>State:</h1>
-          </label>
-          <input
-            name="state"
-            onChange={this.handleChange}
-            value={state}
-          ></input>
+        <label htmlFor="address_1">
+          <h1>Address Line 1:</h1>
+        </label>
+        <input
+          name="address_1"
+          onChange={handleChange}
+          value={formData.address_1}
+        ></input>
 
-          <label htmlFor="zipcode">
-            <h1>Zipcode:</h1>
-          </label>
-          <input
-            name="zipcode"
-            onChange={this.handleChange}
-            value={zipcode}
-          ></input>
+        <label htmlFor="address_2">
+          <h1>Address Line 2:</h1>
+        </label>
+        <input
+          name="address_2"
+          onChange={handleChange}
+          value={formData.address_2}
+        ></input>
 
-          <label htmlFor="phone">
-            <h1>Phone:</h1>
-          </label>
-          <input
-            name="phone"
-            onChange={this.handleChange}
-            value={phone}
-          ></input>
+        <label htmlFor="city">
+          <h1>City:</h1>
+        </label>
+        <input
+          name="city"
+          onChange={handleChange}
+          value={formData.city}
+        ></input>
 
-          <button type="submit">Submit</button>
-          <button
-            type="cancel"
-            onClick={() => this.props.history.push("/cart")}
-          >
-            Cancel
-          </button>
-        </form>
-      </div>
-    );
-  }
+        <label htmlFor="state">
+          <h1>State:</h1>
+        </label>
+        <input
+          name="state"
+          onChange={handleChange}
+          value={formData.state}
+        ></input>
+
+        <label htmlFor="zipcode">
+          <h1>Zipcode:</h1>
+        </label>
+        <input
+          name="zipcode"
+          onChange={handleChange}
+          value={formData.zipcode}
+        ></input>
+
+        <label htmlFor="phone">
+          <h1>Phone:</h1>
+        </label>
+        <input
+          name="phone"
+          onChange={handleChange}
+          value={formData.phone}
+        ></input>
+
+        <button type="submit">Submit</button>
+        <button type="cancel" onClick={() => history.push("/cart")}>
+          Cancel
+        </button>
+      </form>
+    </div>
+  );
 }
 
 const mapStateToProps = (state) => {
   return {
     auth: state.auth,
-    cart: state.cart,
+    cartInfo: state.cart,
     order: state.order,
     canSubmit: state.cart.canSubmit,
-    state: state,
   };
 };
 
@@ -230,6 +215,12 @@ const mapDispatchToProps = (dispatch, { history }) => ({
   getOrder: (userId) => dispatch(fetchOrder(userId)),
   check_Inventory: (productId, cartItemAmount, cartItemId) =>
     dispatch(checkInventory(productId, cartItemAmount, cartItemId)),
+  update_ProductCount: (productId, cartItemAmount) =>
+    dispatch(updateProductCount(productId, cartItemAmount)),
+  reset_CanSubmit: () => dispatch(resetCanSubmit()),
+  reset_CartConflicts: () => dispatch(resetCartConflicts()),
+  getCart: (loggedInUser) => dispatch(fetchCart(loggedInUser)),
+  getGuestCart: () => dispatch(fetch_GuestCart()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

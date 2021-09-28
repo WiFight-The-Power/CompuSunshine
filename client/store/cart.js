@@ -8,6 +8,7 @@ const ADD_TO_CART = "ADD_TO_CART";
 const LOAD_GUEST_CART = "LOAD_GUEST_CART";
 const ADD_INVENTORY_CONFLICT = "ADD_INVENTORY_CONFLICT";
 const CAN_SUBMIT = "CAN_SUBMIT";
+const RESET_CART_CONFLICTS = "RESET_CART_CONFLICTS";
 
 let initialState = {
   userCart: [],
@@ -41,6 +42,13 @@ export const _setCanSubmit = (boolean) => {
   return {
     type: CAN_SUBMIT,
     boolean,
+  };
+};
+
+export const _resetConflicts = () => {
+  return {
+    type: RESET_CART_CONFLICTS,
+    payload: [],
   };
 };
 
@@ -120,6 +128,7 @@ export const addToGuestCart =
     }
     localStorage.setItem("cart", JSON.stringify(cartItems));
   };
+// const productId = auth.id ? orderItem.productId : orderItem.id
 
 export const fetch_GuestCart = () => {
   return async (dispatch) => {
@@ -171,20 +180,33 @@ export const update_GuestCart = (itemId, task) => {
 export const checkInventory = (productId, cartItemAmount, cartItemId) => {
   return async (dispatch) => {
     try {
+      console.log("should be working");
       const obj = { cartItemAmount };
       const { data: canPurchase } = await axios.put(
         `/api/products/checkInventory/${productId}`,
         obj
       );
-      console.log(canPurchase, ": Can you really buy?");
+
       if (!canPurchase) {
         dispatch(_setCanSubmit(false));
         dispatch(_addInventoryConflict(cartItemId));
-        console.log("Two dispatch theory worked!");
       }
     } catch (error) {
       console.log(error);
     }
+  };
+};
+
+export const resetCanSubmit = () => {
+  return (dispatch) => {
+    dispatch(_setCanSubmit(true));
+    dispatch(_resetConflicts());
+  };
+};
+
+export const resetCartConflicts = () => {
+  return (dispatch) => {
+    dispatch(_resetConflicts());
   };
 };
 
@@ -211,7 +233,24 @@ export default function cartReducer(state = initialState, action) {
         ...state,
         canSubmit: action.boolean,
       };
+    case RESET_CART_CONFLICTS:
+      return {
+        ...state,
+        cartConflicts: action.payload,
+      };
     default:
       return state;
   }
 }
+
+// let initialFormState = {
+//   first_name: auth.first_name || "",
+//   last_name: auth.last_name || "",
+//   email: auth.email || "",
+//   address_1: auth.address_1 || "",
+//   address_2: auth.address_2 || "",
+//   phone: auth.phone || "",
+//   city: auth.city || "",
+//   state: auth.state || "",
+//   zipcode: auth.zipcode || "",
+// };

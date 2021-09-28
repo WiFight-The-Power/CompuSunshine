@@ -2,10 +2,17 @@ import React, { useEffect, useState } from "react";
 import CartRow from "./utils/CartRow";
 import { connect } from "react-redux";
 import { fetchCart, fetch_GuestCart } from "../store/cart";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function Cart({ cart, isLoggedIn, loggedInUser, getCart, guestCart, getGuestCart, state }) {
-  console.log(loggedInUser, "what we need ");
+function Cart({
+  cart,
+  isLoggedIn,
+  loggedInUser,
+  getCart,
+  guestCart,
+  getGuestCart,
+  state,
+}) {
   let rowView;
 
   useEffect(() => {
@@ -23,7 +30,7 @@ function Cart({ cart, isLoggedIn, loggedInUser, getCart, guestCart, getGuestCart
     } else {
       /* Added sorted list to keep from element reshifting after rerender! */
       let sortedCart = cart.sort((itemA, itemB) => itemA.id - itemB.id);
-      rowView = sortedCart.map(item => (
+      rowView = sortedCart.map((item) => (
         <CartRow
           key={item.id}
           id={item.id}
@@ -37,14 +44,11 @@ function Cart({ cart, isLoggedIn, loggedInUser, getCart, guestCart, getGuestCart
       ));
     }
   } else {
-    console.log("on guest!!!!!!");
-    // const guestCart = JSON.parse(localStorage.getItem("cart"));
-    console.log(guestCart, "hey");
     rowView =
       guestCart === null ? (
         <h1 style={{ textAlign: "center" }}>Cart is Empty, ya bum!</h1>
       ) : (
-        guestCart.map(item => (
+        guestCart.map((item) => (
           <CartRow
             key={item.id}
             id={item.id}
@@ -61,7 +65,6 @@ function Cart({ cart, isLoggedIn, loggedInUser, getCart, guestCart, getGuestCart
 
   return (
     <div>
-      {console.log(cart, "we on view")}
       <table style={{ width: "1200px", marginLeft: "60px" }}>
         <thead>
           <tr>
@@ -75,12 +78,14 @@ function Cart({ cart, isLoggedIn, loggedInUser, getCart, guestCart, getGuestCart
 
         <tbody>{rowView}</tbody>
       </table>
-      <Link to="/checkout"><button>Checkout</button></Link>
+      <Link to="/checkout">
+        <button>Checkout</button>
+      </Link>
     </div>
   );
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   cart: state.cart.userCart,
   guestCart: state.cart.guestCart,
   isLoggedIn: !!state.auth.id,
@@ -88,8 +93,8 @@ const mapState = state => ({
   state: state,
 });
 
-const mapDispatch = dispatch => ({
-  getCart: loggedInUser => dispatch(fetchCart(loggedInUser)),
+const mapDispatch = (dispatch) => ({
+  getCart: (loggedInUser) => dispatch(fetchCart(loggedInUser)),
   getGuestCart: () => dispatch(fetch_GuestCart()),
 });
 
