@@ -20,4 +20,8 @@ module.exports = db.define("orderitem", {
   imageUrl: {
     type: Sequelize.STRING,
   },
+  addedFromGuestCart: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
 });
