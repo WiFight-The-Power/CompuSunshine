@@ -27,10 +27,10 @@ class PastOrders extends React.Component {
                   <div className="product" key={product.id}>
                     <img className="product-img" src={product.imageUrl} />
                     <h3>{product.name}</h3>
-                    <h4>Price Per Unit: {product.price / 100}</h4>
+                    <h4>Price Per Unit: ${product.price / 100}</h4>
                     <h4>Quantity: {product.orderitem.quantity}</h4>
                     <h4>
-                      Total Per Product:{" "}
+                      Total Per Product: $
                       {((product.price * product.orderitem.quantity) / 100).toFixed(2)}
                     </h4>
                   </div>
