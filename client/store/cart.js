@@ -87,8 +87,43 @@ export const update_UserCart = (cartItem, loggedInUser, task) => {
 export const addToUserCart = (productId, loggedInUser, price, productObj) => {
   return async (dispatch) => {
     try {
-      const obj = { productId, loggedInUser, price, productObj };
-      const { data: product } = await axios.post(`/api/cart`, obj);
+      const obj = {
+        productId,
+        loggedInUser,
+        price,
+        productObj,
+        addedFromGuestCart: true,
+      };
+      const { data: product } = await axios.post(`/api/cart/`, obj);
+      dispatch(fetchCart(loggedInUser));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const addToUserCartFromGuest = (
+  productId,
+  loggedInUser,
+  price,
+  productObj
+) => {
+  return async (dispatch) => {
+    try {
+      console.log("adding");
+      const obj = {
+        productId,
+        loggedInUser,
+        price,
+        productObj,
+        addedFromGuestCart: true,
+      };
+      console.log(obj.productId, loggedInUser, "should work");
+      const { data: product } = await axios.post(
+        `/api/cart/addFromGuestUserCart`,
+        obj
+      );
+
       dispatch(fetchCart(loggedInUser));
     } catch (error) {
       console.log(error);
@@ -128,7 +163,6 @@ export const addToGuestCart =
     }
     localStorage.setItem("cart", JSON.stringify(cartItems));
   };
-// const productId = auth.id ? orderItem.productId : orderItem.id
 
 export const fetch_GuestCart = () => {
   return async (dispatch) => {
