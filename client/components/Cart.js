@@ -38,10 +38,10 @@ function Cart({
   useEffect(() => {
     try {
       getGuestCart();
+      loggedInUser && removeGuestCart();
     } catch (error) {
       console.log(error);
     }
-    removeGuestCart();
   }, [loggedInUser]);
 
   if (isLoggedIn) {
