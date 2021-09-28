@@ -118,6 +118,7 @@ function Checkout({
           name="first_name"
           onChange={handleChange}
           value={formData.first_name}
+          required
         ></input>
 
         <label htmlFor="last_name">
@@ -127,6 +128,7 @@ function Checkout({
           name="last_name"
           onChange={handleChange}
           value={formData.last_name}
+          required
         ></input>
 
         <label htmlFor="email">
@@ -136,6 +138,7 @@ function Checkout({
           name="email"
           onChange={handleChange}
           value={formData.email}
+          required
         ></input>
 
         <label htmlFor="address_1">
@@ -145,6 +148,7 @@ function Checkout({
           name="address_1"
           onChange={handleChange}
           value={formData.address_1}
+          required
         ></input>
 
         <label htmlFor="address_2">
@@ -154,6 +158,7 @@ function Checkout({
           name="address_2"
           onChange={handleChange}
           value={formData.address_2}
+          required
         ></input>
 
         <label htmlFor="city">
@@ -163,6 +168,7 @@ function Checkout({
           name="city"
           onChange={handleChange}
           value={formData.city}
+          required
         ></input>
 
         <label htmlFor="state">
@@ -172,6 +178,7 @@ function Checkout({
           name="state"
           onChange={handleChange}
           value={formData.state}
+          required
         ></input>
 
         <label htmlFor="zipcode">
@@ -181,6 +188,7 @@ function Checkout({
           name="zipcode"
           onChange={handleChange}
           value={formData.zipcode}
+          required
         ></input>
 
         <label htmlFor="phone">
@@ -190,6 +198,7 @@ function Checkout({
           name="phone"
           onChange={handleChange}
           value={formData.phone}
+          required
         ></input>
 
         <button type="submit">Submit</button>
