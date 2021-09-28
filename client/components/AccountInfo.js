@@ -1,5 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
+import { updateUser } from "../store/user";
+import { me } from "../store/auth";
 
 class AccountInfo extends React.Component {
   constructor() {
@@ -41,70 +43,48 @@ class AccountInfo extends React.Component {
     });
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    //update user info
+  async handleSubmit(event) {
+    try {
+      await event.preventDefault();
+      await this.props.toUpdateUser({ ...this.props.auth, ...this.state });
+      await this.props.refreshUser();
+      await this.props.history.push("/myAccount");
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   render() {
-    const {
-      first_name,
-      last_name,
-      email,
-      address_1,
-      address_2,
-      phone,
-      city,
-      state,
-      zipcode,
-    } = this.state;
+    const { first_name, last_name, email, address_1, address_2, phone, city, state, zipcode } =
+      this.state;
+
     return (
       <div>
         <form id="account-info-form" onSubmit={this.handleSubmit}>
           <label htmlFor="first_name">
             <h1>First Name:</h1>
           </label>
-          <input
-            name="first_name"
-            onChange={this.handleChange}
-            value={first_name}
-          ></input>
+          <input name="first_name" onChange={this.handleChange} value={first_name}></input>
 
           <label htmlFor="last_name">
             <h1>Last Name:</h1>
           </label>
-          <input
-            name="last_name"
-            onChange={this.handleChange}
-            value={last_name}
-          ></input>
+          <input name="last_name" onChange={this.handleChange} value={last_name}></input>
 
           <label htmlFor="email">
             <h1>Email:</h1>
           </label>
-          <input
-            name="email"
-            onChange={this.handleChange}
-            value={email}
-          ></input>
+          <input name="email" onChange={this.handleChange} value={email}></input>
 
           <label htmlFor="address_1">
             <h1>Address Line 1:</h1>
           </label>
-          <input
-            name="address_1"
-            onChange={this.handleChange}
-            value={address_1}
-          ></input>
+          <input name="address_1" onChange={this.handleChange} value={address_1}></input>
 
           <label htmlFor="address_2">
             <h1>Address Line 2:</h1>
           </label>
-          <input
-            name="address_2"
-            onChange={this.handleChange}
-            value={address_2}
-          ></input>
+          <input name="address_2" onChange={this.handleChange} value={address_2}></input>
 
           <label htmlFor="city">
             <h1>City:</h1>
@@ -114,35 +94,20 @@ class AccountInfo extends React.Component {
           <label htmlFor="state">
             <h1>State:</h1>
           </label>
-          <input
-            name="state"
-            onChange={this.handleChange}
-            value={state}
-          ></input>
+          <input name="state" onChange={this.handleChange} value={state}></input>
 
           <label htmlFor="zipcode">
             <h1>Zipcode:</h1>
           </label>
-          <input
-            name="zipcode"
-            onChange={this.handleChange}
-            value={zipcode}
-          ></input>
+          <input name="zipcode" onChange={this.handleChange} value={zipcode}></input>
 
           <label htmlFor="phone">
             <h1>Phone:</h1>
           </label>
-          <input
-            name="phone"
-            onChange={this.handleChange}
-            value={phone}
-          ></input>
+          <input name="phone" onChange={this.handleChange} value={phone}></input>
 
           <button type="submit">Submit</button>
-          <button
-            type="button"
-            onClick={() => this.props.history.push("/myAccount")}
-          >
+          <button type="button" onClick={() => this.props.history.push("/myAccount")}>
             Cancel
           </button>
         </form>
@@ -151,14 +116,15 @@ class AccountInfo extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     auth: state.auth,
   };
 };
 
 const mapDispatchToProps = (dispatch, { history }) => ({
-  //something
+  toUpdateUser: user => dispatch(updateUser(user)),
+  refreshUser: () => dispatch(me()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountInfo);
