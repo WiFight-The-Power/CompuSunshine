@@ -20,6 +20,7 @@ function Checkout({
   order,
   reset_CartConflicts,
   reset_CanSubmit,
+  loggedInUser,
   cartInfo,
   getOrder,
   getCart,
@@ -58,6 +59,7 @@ function Checkout({
         const productId = auth.id ? orderItem.productId : orderItem.id;
         update_ProductCount(productId, orderItem.quantity);
       }
+      !loggedInUser && localStorage.removeItem("cart");
     }
     checkAvailabily();
     reset_CanSubmit();
@@ -219,6 +221,7 @@ function Checkout({
 const mapStateToProps = (state) => {
   return {
     auth: state.auth,
+    loggedInUser: state.auth.id,
     cartInfo: state.cart,
     order: state.order,
     canSubmit: state.cart.canSubmit,
