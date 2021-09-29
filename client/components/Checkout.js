@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import CheckoutItem from "./utils/CheckoutItem";
 import { updateProductCount } from "../store/products";
 import { updateOrder, fetchOrder } from "../store/order";
+import { toast } from "react-toastify";
+import { injectStyle } from "react-toastify/dist/inject-style";
+
 import {
   checkInventory,
   resetCanSubmit,
@@ -46,6 +49,9 @@ function Checkout({
     event.preventDefault();
 
     if (canSubmit) {
+      injectStyle();
+
+      toast("Order submitted!");
       toUpdateOrder({ ...order, status: "fullfilled" });
       for (let index = 0; index < cart.length; index++) {
         const orderItem = cart[index];
