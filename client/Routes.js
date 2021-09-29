@@ -17,6 +17,8 @@ import Checkout from "./components/Checkout";
 import MyAccount from "./components/MyAccount";
 import AccountInfo from "./components/AccountInfo";
 import PastOrders from "./components/PastOrders";
+import { ToastContainer, toast } from "react-toastify";
+
 
 /**
  * COMPONENT
@@ -31,6 +33,7 @@ class Routes extends Component {
 
     return (
       <div>
+        <ToastContainer />
         {isLoggedIn ? (
           <Switch>
             <Route exact path="/products/:productId" component={SingleProduct} />

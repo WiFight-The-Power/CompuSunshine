@@ -50,7 +50,7 @@ export class SingleProduct extends React.Component {
         ) : (
           "Out of Stock!"
         )}
-        <ToastContainer />
+        
       </div>
     );
   }
