@@ -50,7 +50,17 @@ router.get("/:userId/pastOrders", async (req, res, next) => {
 // Path is /api/orders/:orderId (GET)
 router.put("/:orderId", async (req, res, next) => {
   try {
-    const order = await Order.findByPk(req.params.orderId, { include: OrderItem });
+    // const order = await Order.findByPk(req.params.orderId, {
+    //   include: OrderItem,
+    // });
+    const [order, orderCreated] = await Order.findOrCreate({
+      where: {
+        id: req.params.orderId,
+      },
+      defaults: {
+        status: "pending",
+      },
+    });
     await order.update(req.body);
     res.status(200).json(order);
   } catch (error) {

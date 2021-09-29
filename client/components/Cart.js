@@ -49,9 +49,7 @@ function Cart({
       ? (rowView = (
           <h1 style={{ textAlign: "center" }}>Cart is Empty, ya bum!</h1>
         ))
-      : /* Added sorted list to keep from element reshifting after rerender! */
-
-        (rowView =
+      : (rowView =
           cart &&
           cart
             .sort((itemA, itemB) => itemA.id - itemB.id)

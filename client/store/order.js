@@ -35,8 +35,9 @@ export const fetchOrder = (userId) => {
 export const updateOrder = (order) => {
   return async (dispatch) => {
     try {
+      const orderId = order.id ? order.id : 123445678; //12345678 signifiys a guest user
       const { data: fulfilled } = await axios.put(
-        `/api/orders/${order.id}`,
+        `/api/orders/${orderId}`,
         order
       );
       dispatch(_updateOrder(fulfilled));
