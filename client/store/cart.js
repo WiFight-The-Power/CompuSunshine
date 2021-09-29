@@ -10,10 +10,12 @@ const ADD_INVENTORY_CONFLICT = "ADD_INVENTORY_CONFLICT";
 const CAN_SUBMIT = "CAN_SUBMIT";
 const RESET_CART_CONFLICTS = "RESET_CART_CONFLICTS";
 const REMOVE_GUEST_CART = "REMOVE_GUEST_CART";
+const LOAD_GUEST_CART_BUFFER = "LOAD_GUEST_CART_BUFFER";
 
 let initialState = {
   userCart: [],
   guestCart: [],
+  guestCartBuffer: [],
   cartConflicts: [],
   canSubmit: true,
 };
@@ -57,6 +59,13 @@ export const _removeGuestCart = () => {
   return {
     type: REMOVE_GUEST_CART,
     payload: [],
+  };
+};
+
+export const _loadGuestCartBuffer = (cartItems) => {
+  return {
+    type: LOAD_GUEST_CART_BUFFER,
+    cartItems,
   };
 };
 
@@ -148,8 +157,12 @@ export const addToGuestCart =
       JSON.parse(localStorage.getItem("cart")) !== null
         ? JSON.parse(localStorage.getItem("cart"))
         : [];
+    let guestCartBuffer =
+      JSON.parse(localStorage.getItem("guestCartBuffer")) !== null
+        ? JSON.parse(localStorage.getItem("guestCartBuffer"))
+        : [];
 
-    let inCart = cartItems.filter((item) => Number(item.id) === Number(id));
+    let itemInCart = cartItems.filter((item) => Number(item.id) === Number(id));
 
     cartItems.forEach((item) => {
       if (item.id === id) {
@@ -157,25 +170,31 @@ export const addToGuestCart =
       }
     });
 
-    if (inCart.length === 0) {
-      cartItems = [
-        ...cartItems,
-        {
-          id,
-          name,
-          price,
-          imageUrl,
-          quantity: 1,
-        },
-      ];
+    guestCartBuffer.forEach((item) => {
+      if (Number(item.id) === Number(id)) {
+        item.quantity++;
+      }
+    });
+
+    if (itemInCart.length === 0) {
+      const newItem = {
+        id,
+        name,
+        price,
+        imageUrl,
+        quantity: 1,
+      };
+      cartItems = [...cartItems, newItem];
+      guestCartBuffer = [...guestCartBuffer, newItem];
     }
     localStorage.setItem("cart", JSON.stringify(cartItems));
+    localStorage.setItem("guestCartBuffer", JSON.stringify(guestCartBuffer));
   };
 
 export const remove_GuestCart = () => {
   return async (dispatch) => {
     console.log("workindajflkadjsf lakjds");
-    localStorage.removeItem("cart");
+    localStorage.removeItem("guestCartBuffer");
     dispatch(_removeGuestCart());
   };
 };
@@ -188,6 +207,21 @@ export const fetch_GuestCart = () => {
           ? JSON.parse(localStorage.getItem("cart"))
           : [];
       dispatch(_loadGuestCart(cartItems));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const fetch_GuestCartBuffer = () => {
+  return async (dispatch) => {
+    try {
+      let cartItems =
+        JSON.parse(localStorage.getItem("guestCartBuffer")) !== null
+          ? JSON.parse(localStorage.getItem("guestCartBuffer"))
+          : [];
+      console.log(cartItems, "this is what we get");
+      dispatch(_loadGuestCartBuffer(cartItems));
     } catch (error) {
       console.log(error);
     }
@@ -273,6 +307,11 @@ export default function cartReducer(state = initialState, action) {
         ...state,
         guestCart: action.cartItems,
       };
+    case LOAD_GUEST_CART_BUFFER:
+      return {
+        ...state,
+        guestCartBuffer: action.cartItems,
+      };
     case ADD_INVENTORY_CONFLICT:
       return {
         ...state,
@@ -291,7 +330,7 @@ export default function cartReducer(state = initialState, action) {
     case REMOVE_GUEST_CART:
       return {
         ...state,
-        guestCart: action.payload,
+        guestCartBuffer: action.payload,
       };
     default:
       return state;

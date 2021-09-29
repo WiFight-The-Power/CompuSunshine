@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import {
   fetchCart,
   fetch_GuestCart,
+  fetch_GuestCartBuffer,
   addToUserCartFromGuest,
   remove_GuestCart,
 } from "../store/cart";
@@ -18,6 +19,8 @@ function Cart({
   getGuestCart,
   addToUserCart,
   removeGuestCart,
+  getGuestCartBuffer,
+  guestCartBuffer,
   state,
 }) {
   console.log(loggedInUser, "what we need ");
@@ -27,7 +30,7 @@ function Cart({
     try {
       getCart(loggedInUser);
       loggedInUser &&
-        guestCart.map((item) =>
+        guestCartBuffer.map((item) =>
           addToUserCart(item.id, loggedInUser, item.price, item)
         );
     } catch (error) {
@@ -38,6 +41,7 @@ function Cart({
   useEffect(() => {
     try {
       getGuestCart();
+      getGuestCartBuffer();
       loggedInUser && removeGuestCart();
     } catch (error) {
       console.log(error);
@@ -111,6 +115,7 @@ function Cart({
 const mapState = (state) => ({
   cart: state.cart.userCart,
   guestCart: state.cart.guestCart,
+  guestCartBuffer: state.cart.guestCartBuffer,
   isLoggedIn: !!state.auth.id,
   loggedInUser: state.auth.id,
   state: state,
@@ -119,6 +124,7 @@ const mapState = (state) => ({
 const mapDispatch = (dispatch) => ({
   getCart: (loggedInUser) => dispatch(fetchCart(loggedInUser)),
   getGuestCart: () => dispatch(fetch_GuestCart()),
+  getGuestCartBuffer: () => dispatch(fetch_GuestCartBuffer()),
   addToUserCart: (id, loggedInUser, price, productObj) =>
     dispatch(addToUserCartFromGuest(id, loggedInUser, price, productObj)),
   removeGuestCart: () => dispatch(remove_GuestCart()),
